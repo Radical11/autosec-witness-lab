@@ -4,6 +4,12 @@ A Models of Computation course project by **Bhoumik Singh Rajput (25BYB0120)** a
 
 AUTOSEC explains how regular patterns and nested syntax behave, then compares two regular languages with a shortest counterexample. It is an educational text-analysis tool; it does not execute input or classify real threats.
 
+**Public demo:** https://radical11.github.io/autosec-witness-lab/
+
+**Source:** https://github.com/Radical11/autosec-witness-lab
+
+GitHub Pages hosts the demo after the registered Sites project became inaccessible to the connector. Its original identity is preserved in `.openai/hosting.json`; no duplicate Site was created.
+
 ## Run locally
 
 Use Node 22.12+ or Node 24 LTS, then:
