@@ -113,6 +113,11 @@ export default function App() {
     request = useRef(0),
     timeout = useRef<ReturnType<typeof setTimeout> | null>(null),
     mounted = useRef(false);
+  useEffect(() => {
+    if (!help) return;
+    const previous = document.activeElement as HTMLElement | null;
+    return () => previous?.focus();
+  }, [help]);
   const patch = (part: Partial<CaseInput>) =>
     setC((prev) => ({ ...prev, ...part }));
   function terminate() {
@@ -1567,10 +1572,27 @@ export default function App() {
         <div className="modal-backdrop" onClick={() => setHelp(false)}>
           <dialog
             open
+            aria-modal="true"
             aria-labelledby="help-title"
             onClick={(e) => e.stopPropagation()}
             onKeyDown={(e) => {
               if (e.key === "Escape") setHelp(false);
+              if (e.key === "Tab") {
+                const controls = [
+                  ...e.currentTarget.querySelectorAll<HTMLElement>(
+                    'button:not(:disabled), a[href], input, [tabindex="0"]',
+                  ),
+                ];
+                const first = controls[0],
+                  last = controls.at(-1);
+                if (e.shiftKey && document.activeElement === first) {
+                  e.preventDefault();
+                  last?.focus();
+                } else if (!e.shiftKey && document.activeElement === last) {
+                  e.preventDefault();
+                  first?.focus();
+                }
+              }
             }}
           >
             <div className="row between">
@@ -1809,6 +1831,42 @@ function ConstructionSteps({ compiled }: { compiled: Compilation }) {
   );
 }
 function ParseTree({ nodes }: { nodes: ParseNode[] }) {
+  const [page, setPage] = useState(0);
+  if (nodes.length > 500)
+    return (
+      <div>
+        <p className="small muted">
+          Large derivation: the complete tree is shown as a paginated node/child
+          table to avoid deeply nested rendering.
+        </p>
+        <DataTable
+          headers={["Node", "Symbol", "Children", "Matched token"]}
+          rows={nodes
+            .slice(page * 100, page * 100 + 100)
+            .map((n) => [
+              n.id,
+              n.symbol,
+              n.children.join(", ") || "—",
+              n.token?.text || "—",
+            ])}
+        />
+        <div className="row">
+          <button disabled={!page} onClick={() => setPage(page - 1)}>
+            Previous nodes
+          </button>
+          <span className="small">
+            {page * 100 + 1}–{Math.min((page + 1) * 100, nodes.length)} /{" "}
+            {nodes.length}
+          </span>
+          <button
+            disabled={(page + 1) * 100 >= nodes.length}
+            onClick={() => setPage(page + 1)}
+          >
+            Next nodes
+          </button>
+        </div>
+      </div>
+    );
   function render(id: number): ReactNode {
     const n = nodes[id];
     return (
