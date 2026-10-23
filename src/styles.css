@@ -1024,7 +1024,7 @@ table .badge {
 .compare-machines {
   margin-top: 20px;
 }
-.compare-machines > .div {
+.compare-machines > div {
   min-width: 0;
 }
 .compare-machines .mono {
