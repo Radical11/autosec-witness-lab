@@ -1,8 +1,16 @@
 # Verification — simplified demo
 
-Updated 23 October 2026. This record describes the current two-view interface; earlier full-lab evidence is a historical snapshot.
+Updated 24 October 2026. This record describes the current two-view interface; earlier full-lab evidence is a historical snapshot.
 
-## Passed
+## Report and final-package refresh, 24 October
+
+The current 90-test suite and production build were rerun successfully. New built-worker fixtures record eight command cases, exact rule comparisons, grammar traces and machine counts. A new in-app-browser session verified valid syntax, a missing value, the `--a` witness/trace and missing-bracket behaviour at 390px; console warnings/errors were empty. Full original desktop captures and a directly captured rejection excerpt contain no visible pointer or edited results.
+
+The 12-page report now contains formal definitions, methodology, a source-based related-work comparison, genuine captures, diagrams, results and limitations. Its 12 references all date from 2022–2025 and were verified against primary publication/author sources. Two arXiv-only items are explicitly labelled preprints. The report uses IEEE-style citations and technical language; it is a project report, not an IEEE-published paper. No human learning study or superiority benchmark was performed.
+
+Final PDFs, editable source, screenshots, SVG figures, fixture results, raw tests, a prebuilt app and submission ZIP are included in `deliverables/`. Generated manifests verify the package. The app-source deployment at commit `748cfde` passed GitHub Actions and remains unchanged by the report refresh.
+
+## Previously observed browser checks, 23 October; automated suite rerun 24 October
 
 - 83 engine tests and seven rewritten DOM tests: 90 total.
 - TypeScript and Vite production build.

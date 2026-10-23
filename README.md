@@ -13,6 +13,19 @@ Public demo: https://radical11.github.io/autosec-witness-lab/
 
 Source: https://github.com/Radical11/autosec-witness-lab
 
+## Submission files
+
+- [Updated 12-page project report](deliverables/pdf/AUTOSEC_Final_Report.pdf): IEEE-style technical prose, definitions, methodology, seven figures, nine tables, real screenshots, discussion and 12 verified references from 2022–2025.
+- [Complete submission ZIP](deliverables/AUTOSEC_Submission.zip).
+- [Team explanation and code guide](deliverables/pdf/AUTOSEC_Team_Explanation_and_Code_Guide.pdf).
+- [Demo and viva sheet](deliverables/pdf/AUTOSEC_Demo_and_Viva_Guide.pdf).
+- [Original clean application captures](deliverables/screenshots/report-2026-10-24), [editable diagrams](deliverables/figures), and [verification evidence](deliverables/evidence).
+- [Editable report text](docs/FINAL_REPORT.md) and [verified reference metadata](docs/REFERENCES.json).
+
+The report remains 12 pages; only the application interface was simplified. Generated submission files are committed under `deliverables/`. Its SHA-256 manifest verifies every included output. Temporary renders and original third-party PDFs are excluded.
+
+To rebuild the report, use Python with `reportlab`, `pypdf`, and `pypdfium2`, then run `python scripts/build-report.py`. The renderer can read the shipped `deliverables/` fixtures when the original workspace's output directory is absent. `deliverables/app/` also contains the prebuilt app: any local HTTP server can serve that directory without an internet connection. It must not be opened through `file://`.
+
 ## Run offline
 
 With Node 24 LTS and dependencies already installed:
