@@ -65,7 +65,7 @@ comparison = proof['compared']['comparison']
 grammar = proof['analysis']['grammar']
 
 def normalise(text):
-    return text.replace('\ufeff', '').replace('—', '-').replace('–', '-').replace('\u2011', '-').replace('\u00a0', ' ')
+    return text.replace('\ufeff', '').replace('â€”', '-').replace('â€“', '-').replace('\u2011', '-').replace('\u00a0', ' ')
 
 def inline(text):
     text = escape(normalise(str(text)))
@@ -119,7 +119,7 @@ class Equation(Flowable):
         Flowable.__init__(self); self.width = WIDTH; self.height = 27
     def draw(self):
         self.canv.setFont('AcademicItalic', 12)
-        self.canv.drawCentredString(WIDTH / 2, 13, 'M = (Q, Σ, δ, q₀, F)')
+        self.canv.drawCentredString(WIDTH / 2, 13, 'M = (Q, Î£, Î´, qâ‚€, F)')
         self.canv.setFont('Academic', 12); self.canv.drawRightString(WIDTH, 13, '(1)')
 
 class Architecture(Flowable):
@@ -128,7 +128,7 @@ class Architecture(Flowable):
     def draw(self):
         c = self.canv; c.saveState(); c.scale(WIDTH / 451.276, 1)
         c.setStrokeColor(colors.black); c.setFillColor(colors.black); c.setLineWidth(.6)
-        boxes = [(147, 103, 158, 24, 'Input text + selected rules'), (3, 51, 213, 32, 'Regex → ε-NFA → DFA → minimum'), (235, 51, 213, 32, 'Lexer → tokens → LL(1) parse'), (111, 6, 230, 25, 'Independent observations + trace evidence')]
+        boxes = [(147, 103, 158, 24, 'Input text + selected rules'), (3, 51, 213, 32, 'Regex â†’ Îµ-NFA â†’ DFA â†’ minimum'), (235, 51, 213, 32, 'Lexer â†’ tokens â†’ LL(1) parse'), (111, 6, 230, 25, 'Independent observations + trace evidence')]
         for x, y, w, h, label in boxes:
             c.rect(x, y, w, h); c.setFont('Academic', 10); c.drawCentredString(x + w / 2, y + h / 2 - 3, label)
         for x1,y1,x2,y2 in [(180,103,110,83),(272,103,342,83),(110,51,182,31),(342,51,270,31)]:
@@ -189,19 +189,19 @@ entries=[(line.lstrip('#').strip(),line.startswith('## ')) for line in source.sp
 def tables(key):
     if key=='AUTOMATA_TABLE':
         rows=[[f'`{proof["compared"][s]["pattern"]}`']+[str(proof['compared'][s][kind]['stateCount']) for kind in ['nfa','dfa','minimal']] for s in ['left','right']]
-        return make_table('Table 1: Recorded state counts for the signature comparison', ['Rule','ε-NFA','DFA','Minimal DFA'],rows,[210,70,65,WIDTH-345])
+        return make_table('Table 1: Recorded state counts for the signature comparison', ['Rule','Îµ-NFA','DFA','Minimal DFA'],rows,[210,70,65,WIDTH-345])
     if key=='SETS_TABLE':
         rows=[[n,'{'+', '.join(grammar['first'][n])+'}','{'+', '.join(grammar['follow'][n])+'}'] for n in grammar['first']]
         return make_table('Table 2: FIRST and FOLLOW sets calculated from the grammar',['Nonterminal','FIRST','FOLLOW'],rows,[82,173,WIDTH-255])
     if key=='PARSE_TABLE':
         rows=[]
         for i,step in enumerate(proof['analysis']['parse']['trace'][:8]):
-            remaining=' '.join(step['remaining'][:3])+(' …' if len(step['remaining'])>3 else '')
+            remaining=' '.join(step['remaining'][:3])+(' â€¦' if len(step['remaining'])>3 else '')
             action=re.sub(r':.*','',step['action']) if step['action'].startswith('Match ') else step['action']
             rows.append([str(i+1),' '.join(step['stack']),remaining,action])
         return make_table('Table 3: First eight actions of the recorded predictive parse',['Step','Stack (top at left)','Remaining','Action'],rows,[29,137,122,WIDTH-288])
     if key=='WITNESS_TABLE':
-        rows=[[('ε' if i==0 else '`'+comparison['witness'][:i]+'`'),'q'+str(a['active'][0]),'q'+str(b['active'][0]),'Yes' if a['accepting']!=b['accepting'] else 'No'] for i,(a,b) in enumerate(zip(comparison['leftTrace'],comparison['rightTrace']))]
+        rows=[[('Îµ' if i==0 else '`'+comparison['witness'][:i]+'`'),'q'+str(a['active'][0]),'q'+str(b['active'][0]),'Yes' if a['accepting']!=b['accepting'] else 'No'] for i,(a,b) in enumerate(zip(comparison['leftTrace'],comparison['rightTrace']))]
         return make_table('Table 4: Shortest-witness replay from actual worker output',['Prefix','Rule A state','Rule B state','Disagreement'],rows,[90,112,112,WIDTH-314])
     if key=='RESULTS_TABLE':
         rows=[['Engine tests','83 passing','Recognition, transformations and integration'],['DOM tests','7 passing','Interaction and state flows in jsdom'],['Production build','Successful','TypeScript checks and Vite bundle'],['Built worker','Passed','Actual asset under Node transport'],['Shortest witness','`--a`','Accepted by A; rejected by B'],['Equivalent rules','`a+` and `aa*`','Product exploration confirms agreement'],['Dependency audit','0 known issues','Recorded registry-audit snapshot']]
@@ -225,9 +225,9 @@ def story_for(page_map):
         if text=='{{ARCHITECTURE_FIGURE}}':story.extend([Architecture(),Paragraph('Figure 1: The two independent analysis layers in AUTOSEC',CAPTION),Spacer(1,4)]);continue
         if text=='{{WITNESS_FIGURE}}':story.extend([Witness(),Paragraph('Figure 2: Synchronous replay on the shortest witness --a',CAPTION),Spacer(1,3)]);continue
         if text=='{{APPLICATION_SCREENSHOT}}':
-            image=Image(str(OUT/'screenshots/01-analyse-desktop.jpg'))
+            image=Image(str(OUT/'screenshots/simple-demo/01-check-desktop.png'))
             image.drawWidth=280;image.drawHeight=280*image.imageHeight/image.imageWidth
-            story.append(KeepTogether([image,Paragraph('Figure 3: Published Analyse view, captured on 23 October 2026. Full-resolution captures accompany the evidence.',CAPTION)]));continue
+            story.append(KeepTogether([image,Paragraph('Figure 3: Simplified Check text view, captured locally on 23 October 2026. Full-resolution captures accompany the evidence.',CAPTION)]));continue
         if text.startswith('{{') and text.endswith('_TABLE}}'):story.extend(tables(text[2:-2]));continue
         if text.startswith('```'):
             block=[]
@@ -266,9 +266,9 @@ expanded=source
 expanded=expanded.replace('{{COVER}}','# AUTOSEC\n\nCounterexample-Driven Automata and Syntax Lab\n\nModels of Computation (BACSE201)\n\nBhoumik Singh Rajput - 25BYB0120\n\nVihaan Jinesh Jain - 25BYB0130\n\nFaculty: Dr. Dharmendra Singh Rajput\n\nVellore Institute of Technology\n\n23 October 2026')
 expanded=expanded.replace('{{ABSTRACT_HEADING}}','## Abstract')
 expanded=expanded.replace('{{CONTENTS}}','## Contents\n\n'+'\n'.join(f'- {title} ... {final_map[title]}' for title,_ in entries))
-expanded=expanded.replace('{{DFA_EQUATION}}','M = (Q, Σ, δ, q₀, F)  (1)')
+expanded=expanded.replace('{{DFA_EQUATION}}','M = (Q, Î£, Î´, qâ‚€, F)  (1)')
 for name in ['ARCHITECTURE_FIGURE','WITNESS_FIGURE']:expanded=expanded.replace('{{'+name+'}}','[Vector diagram in PDF; see source renderer and worker evidence.]')
-expanded=expanded.replace('{{APPLICATION_SCREENSHOT}}','![Published Analyse view, 23 October 2026](../screenshots/01-analyse-desktop.jpg)')
+expanded=expanded.replace('{{APPLICATION_SCREENSHOT}}','![Simplified Check text view, 23 October 2026](../screenshots/simple-demo/01-check-desktop.png)')
 for key in ['AUTOMATA_TABLE','SETS_TABLE','PARSE_TABLE','WITNESS_TABLE','RESULTS_TABLE','VERDICT_TABLE']:
     fs=tables(key);t=fs[0]._content[1]
     rows=[[p.getPlainText() for p in row] for row in t._cellvalues]

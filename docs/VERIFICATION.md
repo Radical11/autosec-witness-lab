@@ -1,35 +1,28 @@
-# Verification record
+# Verification — simplified demo
 
-Updated: 23 October 2026. The machine's timezone is Asia/Kolkata.
+Updated 23 October 2026. This record describes the current two-view interface; earlier full-lab evidence is a historical snapshot.
 
-## Confirmed
+## Passed
 
-- 83 engine tests and seven jsdom interaction tests pass (90 total).
-- Eight independent language predicates are checked on all 127 strings over `{a,b}` through length six, against the ε-NFA, DFA, and minimal DFA recognisers.
-- Exact product-DFA equivalence checks verify minimisation on these examples and a deliberately redundant DFA.
-- Whole-string and substring semantics, ε witnesses, common alphabets, implicit dead states, shortest witness lengths, malformed regexes and resource bounds are checked.
-- The grammar computes FIRST/FOLLOW and its LL(1) table from productions. Valid/invalid nested scripts, escapes, source offsets, partial trees, PDA order failures, and all four pattern/grammar result combinations are tested.
-- DOM tests exercise examples, mutation/restore, witness replay, equivalence, stale-result labels, invalid regex diagnostics, grammar/stack interaction, case persistence across remount, JSON export callback and import recomputation, cancellation, and keyboard activation.
-- TypeScript and Vite production build succeeds. The actual built worker runs through `scripts/runtime-proof.mjs`, including nested-script analysis, shortest `--a` witness and `a+`/`aa*` equivalence.
-- Registry dependency audit: zero known vulnerabilities at the final local check.
-- GitHub Actions also performs clean `npm ci`, tests, a Pages-mode production build, and built-worker verification on Linux/Node 24 before deploying.
+- 83 engine tests and seven rewritten DOM tests: 90 total.
+- TypeScript and Vite production build.
+- Genuine Chrome via Playwright at http://127.0.0.1:4173/, 1280×900 and 390×844. Browser plugin was unavailable in this session.
+- Valid nested command; missing flag value; missing closing parenthesis; optional token/parser steps; old results cleared after editing; valid command without a flag.
+- Real worker comparison: shortest --a witness, acceptance disagreement, equivalent a+/aa*, empty-string a*/a+ witness and malformed regex diagnostics.
+- Real browser cancellation with delayed worker loading, followed by a check that no late acceptance appears.
+- No console/page errors observed, no external requests, and no horizontal overflow in the sampled mobile views.
+- Keyboard activation/submission is covered in the DOM tests. The exact engine remains independent of the UI and retains exhaustive short-language and exact equivalence checks.
 
-The timestamped raw results are delivered in `output/evidence/tests.json` and `output/evidence/runtime-proof.json` in the workspace. Deployment outcome and HTTP asset checks are separately recorded in `output/evidence/deployment.json`.
+Screenshots: output/screenshots/simple-demo/ (outside the repository). Temporary QA script also stays outside committed source.
 
-## Real-browser review on 23 October
+## Scope
 
-Browser access became available. The published app was checked through genuine UI interactions in the Codex in-app browser. Verified flows: initial nested analysis; remove/restore a closing bracket; shortest `--a` witness and acceptance-disagreeing replay; equivalent forms; ε witness; invalid-regex diagnostic; parser replay through acceptance; mismatched PDA rejection; saved-case persistence across reload; JSON download/reimport with recomputation; SVG download; and keyboard End on playback ranges. No console errors were observed during the inspected session.
+The UI now exposes two tasks only. Full-lab persistence, JSON/SVG export, graphs, URL illustration, separate PDA animation and printable report controls were removed. Their old UI tests were replaced with tests for the current demo. Engine utilities not exposed by the UI are not advertised as visible features.
 
-The review found a mobile CSS selector defect: `.compare-machines > .div` did not apply `min-width: 0` to the actual grid children. Correcting it to `.compare-machines > div` contained wide graphs in their scroll panels. Both the local fix and deployed release were checked at a 390px viewport; document width was 375px, with no page-wide overflow. The sampled desktop view also fit a 1440px viewport. Screenshots are genuine browser captures in `output/screenshots/`, and detailed results are in `output/evidence/browser-review-2026-10-23.json`.
+The full interface remains recoverable through Git tag full-lab-v1. Existing historical raw evidence is dated; it is not evidence of the current UI. Current release CI and deployment checks are recorded separately when published.
 
-The 90-test suite and production build were rerun successfully. CI for release `fc5d69f` also passed. The dated original Node-worker measurement is preserved separately from these new browser checks.
+## Remaining limits
 
-## Still unverified
+Testing samples one browser and two viewport sizes. Comprehensive accessibility, all operating systems and the actual faculty rubric have not been audited. Rehearse on the presentation laptop. Native printing is no longer an app feature.
 
-Native browser print output, browser cancellation/timeout interaction, exhaustive cross-browser behaviour, and comprehensive assistive-technology testing have not been verified. Cancellation is covered in the DOM tests. The DOM suite substitutes worker/storage and the Node harness is not a browser test; neither is being relabelled as real-browser evidence.
-
-The remaining presentation gate is a rehearsal on the actual presentation laptop and a check against the faculty's actual marking rubric, which has not been supplied. The separate team guide explains the implementation and viva topics.
-
-## Publishing deviation
-
-Sites successfully returned project ID `appgprj_6ada273dc5f08191b14b98e84660ffa1`, which remains in `.openai/hosting.json`. Subsequent get/access/credential calls returned `project_not_found`, and listing the selected account returned no Sites. No duplicate Site was created. GitHub Pages is the fallback public host using the authenticated `Radical11` account. The GitHub source and local package are complete independently of Sites account recovery.
+GitHub Pages remains the fallback public host because the earlier Sites connector project lookup returned project_not_found. No duplicate Site is created.

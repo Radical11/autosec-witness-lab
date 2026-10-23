@@ -11,8 +11,6 @@
     "test:evidence": "vitest run --reporter=default --reporter=json --outputFile=../output/evidence/tests.json"
   },
   "dependencies": {
-    "@dagrejs/dagre": "^1.1.8",
-    "lucide-react": "^0.468.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },

@@ -71,9 +71,9 @@ def render(md,target,short_viva=False):
         if text=='<!-- pagebreak -->':story.append(PageBreak());continue
         if text=='{{COMPILE_CODE}}':story.append(Preformatted(compile_code,CODE));continue
         if text=='{{ANALYSIS_SCREENSHOT}}':
-            p=OUT/'screenshots/01-analyse-desktop.jpg'
+            p=OUT/'screenshots/simple-demo/01-check-desktop.png'
             image=Image(str(p));image.drawWidth=WIDTH;image.drawHeight=WIDTH*image.imageHeight/image.imageWidth
-            story.append(KeepTogether([image,Paragraph('Genuine desktop capture of the published app, 23 October 2026. Full-resolution screenshots accompany the package.',CAP)]));continue
+            story.append(KeepTogether([image,Paragraph('Genuine local capture of the simplified demo, 23 October 2026. Full-resolution screenshots accompany the package.',CAP)]));continue
         if text.startswith('{{') and text.endswith('}}'):
             key=text[2:-2];headers,rows,widths=dynamic[key];story.extend(table(headers,rows,widths));continue
         if text.startswith('```'):
@@ -107,7 +107,7 @@ def render(md,target,short_viva=False):
 
 target=PDF/'AUTOSEC_Team_Explanation_and_Code_Guide.pdf'
 render(source,target)
-expanded=source.replace('{{COMPILE_CODE}}','```typescript\n'+compile_code+'\n```').replace('{{ANALYSIS_SCREENSHOT}}','[Genuine application screenshot: ../screenshots/01-analyse-desktop.jpg]')
+expanded=source.replace('{{COMPILE_CODE}}','```typescript\n'+compile_code+'\n```').replace('{{ANALYSIS_SCREENSHOT}}','[Genuine application screenshot: ../screenshots/simple-demo/01-check-desktop.png]')
 for key,(headers,rows,_) in dynamic.items():
     value='| '+' | '.join(headers)+' |\n| '+' | '.join(['---']*len(headers))+' |\n'+'\n'.join('| '+' | '.join(r)+' |' for r in rows)
     expanded=expanded.replace('{{'+key+'}}',value)
