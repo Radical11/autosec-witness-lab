@@ -7,9 +7,9 @@ ROOT=Path(__file__).resolve().parents[1]
 OUT=ROOT.parent/'output'
 OUT.mkdir(exist_ok=True)
 evidence=OUT/'evidence'
-proof=json.loads((evidence/'runtime-proof.json').read_text())
-tests=json.loads((evidence/'tests.json').read_text())
-deployment=json.loads((evidence/'deployment.json').read_text())
+proof=json.loads((evidence/'runtime-proof.json').read_text(encoding='utf-8'))
+tests=json.loads((evidence/'tests.json').read_text(encoding='utf-8'))
+deployment=json.loads((evidence/'deployment.json').read_text(encoding='utf-8'))
 examples=OUT/'examples';examples.mkdir(exist_ok=True)
 data={'name':'Nested inspection','input':proof['analysis']['input'],'rules':[{'name':s['name'],'pattern':s['pattern']} for s in proof['analysis']['signatures']],'mode':'whole','left':'--[a-z]+','right':'--[a-z][a-z]+'}
 for slug,result in [('nested-inspection',proof['analysis'])]+[(f['name'],f['result']) for f in proof['fixtures']]:
