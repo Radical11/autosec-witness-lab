@@ -15,7 +15,7 @@ data={'name':'Nested inspection','input':proof['analysis']['input'],'rules':[{'n
 for slug,result in [('nested-inspection',proof['analysis'])]+[(f['name'],f['result']) for f in proof['fixtures']]:
     c={**data,'name':slug.replace('-',' ').title(),'input':result['input']}
     (examples/(slug+'.json')).write_text(json.dumps({'schemaVersion':1,'engineVersion':'1.0.0','case':c,'result':result},indent=2),encoding='utf-8')
-info={'sourceCommit':subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),'testsPassed':tests['numPassedTests'],'deployment':deployment,'browserVisualQA':False,'uiScreenshotsCaptured':False}
+info={'sourceCommit':subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),'testsPassed':tests['numPassedTests'],'deployment':deployment,'browserVisualQA':True,'browserVisualQAScope':'Selected flows and sampled desktop/mobile layouts; see browser-review-2026-10-23.json','uiScreenshotsCaptured':True}
 (evidence/'submission-info.json').write_text(json.dumps(info,indent=2),encoding='utf-8')
 intro='''# AUTOSEC project package
 
@@ -26,6 +26,7 @@ Source repository: https://github.com/Radical11/autosec-witness-lab
 
 - output/pdf/AUTOSEC_Final_Report.pdf: plain academic final report.
 - output/pdf/AUTOSEC_Demo_and_Viva_Guide.pdf: five-minute demo and viva answers.
+- output/pdf/AUTOSEC_Team_Explanation_and_Code_Guide.pdf: detailed team reading guide to the app, algorithms, tech stack, code and readiness assessment.
 - autosec/README.md: setup, features, grammar, limits and source map.
 - autosec/docs/VERIFICATION.md: exact verification scope and remaining checks.
 
@@ -39,11 +40,11 @@ The prebuilt local production app is in autosec/dist. Serve it over HTTP with np
 
 The full TypeScript source and lockfile are included. The report's editable Markdown source is in autosec/docs/FINAL_REPORT.md and the measured expanded copy is in output/pdf/AUTOSEC_Final_Report_Source.md. The renderer is autosec/scripts/build-report.py (Python + reportlab + pypdfium2 + pillow). The viva source is autosec/docs/DEMO_AND_VIVA.md. Regenerate tests with npm.cmd run test:evidence, then the worker proof with node scripts/runtime-proof.mjs after a build.
 
-output/examples contains four importable cases. output/evidence contains raw tests, actual production-worker results, deployment/HTTP checks and a source manifest. The ZIP excludes node_modules, .git, tokens, original third-party PDFs and temporary renders.
+output/examples contains four importable cases. output/evidence contains raw tests, actual production-worker results, deployment/HTTP/browser checks and a source manifest. output/screenshots contains genuine browser captures. The ZIP excludes node_modules, .git, tokens, original third-party PDFs and temporary renders.
 
 ## Remaining presentation gate
 
-All 90 automated tests and the production build pass. Real-browser visual QA and genuine UI screenshots remain unverified because local browser automation was disabled in Work settings. DOM tests and Node worker proof are documented separately. The PDF contains an actual algorithm-trace diagram, not a fabricated UI screenshot. Complete the manual checklist in the viva guide before presenting if screenshots are required.
+All 90 automated tests and the production build pass. On 23 October 2026, genuine browser checks verified the main demo, storage persistence, JSON/SVG downloads and sampled desktop/mobile layouts. A mobile graph overflow issue was fixed and verified on the deployed app. Native browser print output, browser cancellation/timeout and exhaustive cross-browser/accessibility coverage remain unverified. Check the actual faculty rubric and rehearse on the presentation laptop. The team guide explains what is and is not established by the evidence.
 '''
 (OUT/'START_HERE.md').write_text(intro,encoding='utf-8')
 archive=OUT/'AUTOSEC_Submission.zip'
@@ -53,7 +54,7 @@ for p in sorted(ROOT.rglob('*')):
     rel=p.relative_to(ROOT)
     if any(x in {'.git','node_modules','.sites-runtime','.sites-checkout','__pycache__'} for x in rel.parts) or p.suffix=='.tsbuildinfo':continue
     files.append((p,'AUTOSEC/autosec/'+rel.as_posix()))
-for folder in ['pdf','examples','evidence']:
+for folder in ['pdf','examples','evidence','screenshots']:
     for p in sorted((OUT/folder).rglob('*')):
         if p.is_file():files.append((p,'AUTOSEC/output/'+p.relative_to(OUT).as_posix()))
 files.append((OUT/'START_HERE.md','AUTOSEC/START_HERE.md'))

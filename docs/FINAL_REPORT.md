@@ -8,7 +8,7 @@ AUTOSEC is a browser-based learning environment for examining how regular patter
 
 The central contribution is a counterexample-driven experiment. Given two regular expressions, AUTOSEC searches their product automaton for a shortest string accepted by exactly one rule. Synchronised replay makes the disagreement visible. Input mutations, including removal of a closing group or a flag value, then demonstrate why signature presence and grammatical validity must be interpreted separately. A dedicated pushdown-automaton view explains delimiter nesting through stack operations.
 
-The implementation uses React and TypeScript, with computational tasks isolated in cancellable Web Workers. Portable case files preserve experiment inputs and rules. Recorded verification comprises {{TEST_COUNT}} passing automated tests, a successful production build, and execution of the actual production worker bundle. Real-browser visual verification and application screenshots were unavailable in the verification environment and are not claimed. AUTOSEC is an educational integration of established formal-language algorithms; it neither executes submitted commands nor claims production threat-detection accuracy.
+The implementation uses React and TypeScript, with computational tasks isolated in cancellable Web Workers. Portable case files preserve experiment inputs and rules. Recorded verification comprises {{TEST_COUNT}} passing automated tests, a successful production build, and execution of the actual production worker bundle. Selected browser workflows and desktop/mobile layouts were also verified on 23 October 2026, with genuine screenshots supplied as evidence. AUTOSEC is an educational integration of established formal-language algorithms; it neither executes submitted commands nor claims production threat-detection accuracy.
 
 **Keywords:** finite automata, regular expressions, ε-closure, subset construction, DFA minimisation, context-free grammar, predictive parsing, pushdown automata, shortest counterexample.
 
@@ -154,17 +154,17 @@ The figure is generated from actual worker traces, not an application screenshot
 
 ### 6.1 Verification method
 
-The recorded verification run on 22 October 2026 passed {{TEST_COUNT}} tests: 83 engine cases and seven DOM integration cases. For eight independently specified languages, tests enumerate all 127 strings over {a,b} through length six. ε-NFA, DFA and minimal-DFA results are compared with the expected predicate. Exact product-DFA checks also verify language preservation after minimisation.
-
-Additional tests cover ε-cycles, escapes, invalid regexes, dead and unreachable states, resource bounds, different alphabets, substring semantics, grammar errors, nested groups, PDA order failures, mutations and case validation. DOM tests exercise interaction and state changes in jsdom, with substituted storage and worker transport.
+On 23 October 2026, {{TEST_COUNT}} tests passed: 83 engine and seven jsdom cases. Eight languages were checked against all 127 strings over {a,b} through length six using NFA, DFA and minimal-DFA recognition. Exact product checks verify language preservation. DOM tests substitute worker and storage transport.
 
 {{RESULTS_TABLE}}
 
 ### 6.2 Production-worker and deployment evidence
 
-The actual built worker asset was executed using Node worker_threads. It accepted the nested script, returned the expected shortest flag witness, and confirmed `a+`/`aa*` equivalence. The measured {{RUNTIME_MS}} ms is a single local harness observation, not a browser-performance benchmark. A clean Linux GitHub Actions workflow independently passed installation, tests, the production build and worker verification before deployment.
+The built worker accepted the nested script, returned `--a`, and confirmed `a+`/`aa*` equivalence. Its {{RUNTIME_MS}} ms local harness observation is not a browser benchmark. Linux CI independently passed installation, tests, build and worker verification.
 
-The recorded public demo is [AUTOSEC on GitHub Pages](https://radical11.github.io/autosec-witness-lab/). Anonymous HTTP checks returned 200 for its HTML, JavaScript, CSS and worker, with the published worker matching the local asset. Real-browser rendering, browser storage, downloads, print behaviour and screenshots remain unverified because local browser automation was disabled. Neither DOM tests nor Node execution are presented as browser verification.
+The [public demo](https://radical11.github.io/autosec-witness-lab/) passed selected browser flows on 23 October: analysis, mutation, comparison, grammar/PDA, persistence and JSON/SVG transfer. Mobile graph overflow was corrected and rechecked at 390px. Native printing, browser cancellation and exhaustive cross-browser/accessibility checks remain unverified.
+
+{{APPLICATION_SCREENSHOT}}
 
 <!-- pagebreak -->
 
@@ -184,7 +184,7 @@ During a course review, the comparison view demonstrates product constructions a
 
 ### 7.3 Limitations
 
-The supported domain has 98 symbols: printable ASCII plus tab, newline and carriage return. Bounds are 128 regex characters, 2,048 input characters, 256 NFA states and 512 DFA states, with 12 seconds per worker task. Diagrams above 80 states use complete transition tables instead. Large derivation trees use a paginated node table. State explosion can still make a computation incomplete. No arbitrary grammar editor, real-shell execution, threat intelligence, Turing-machine simulator, shared editing or AI-generated automata are included. Syntactic acceptance does not establish security, and genuine browser screenshots remain a presentation item requiring separate verification.
+The supported domain has 98 symbols: printable ASCII plus tab, newline and carriage return. Bounds are 128 regex characters, 2,048 input characters, 256 NFA states and 512 DFA states, with 12 seconds per worker task. Diagrams above 80 states use complete transition tables instead. Large derivation trees use a paginated node table. State explosion can still make a computation incomplete. No arbitrary grammar editor, real-shell execution, threat intelligence, Turing-machine simulator, shared editing or AI-generated automata are included. Syntactic acceptance does not establish security. Selected browser checks and screenshots are evidence, not exhaustive verification.
 
 <!-- pagebreak -->
 
@@ -192,7 +192,7 @@ The supported domain has 98 symbols: printable ASCII plus tab, newline and carri
 
 AUTOSEC turns standard Models of Computation constructions into a connected experiment. Its regular layer exposes the transformation from regex to ε-NFA, DFA and minimal DFA. Its structural layer explains token order and nesting through computed grammar sets, predictive parsing and a stack demonstration. The shortest-counterexample feature joins these ideas with a precise, reproducible difference between two regular languages.
 
-Recorded tests support the reported algorithmic outcomes while the verification boundary remains explicit. The project demonstrates educational integration and explanation rather than a new computational model or production threat detection. Future work can add verified browser screenshots, richer large-machine navigation and additional curated language exercises. A general grammar editor would require explicit handling of conflicts and transformations beyond the current fixed LL(1) grammar.
+Recorded tests support the reported algorithmic outcomes while the verification boundary remains explicit. The project demonstrates educational integration and explanation rather than a new computational model or production threat detection. Future work can extend browser coverage, improve large-machine navigation and add curated language exercises. A general grammar editor would require explicit handling of conflicts and transformations beyond the current fixed LL(1) grammar.
 
 The source repository, local build, versioned cases and raw test evidence accompany the report. They allow a reviewer to relate a displayed answer to its input, algorithm and recorded result.
 

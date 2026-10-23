@@ -50,10 +50,10 @@
 
 **Does a matched signature mean malicious input?** No. `inspect "--tag"` contains flag-looking text inside a quoted argument. Pattern presence, token meaning, syntax validity, and real-world intent are different properties.
 
-**How was it tested?** 83 engine cases plus seven jsdom interaction cases; exhaustive strings over `{a,b}` through length six for eight independently specified languages; exact DFA equivalence checks; built-worker execution. Real browser visual QA and screenshots were blocked by disabled browser automation and are not claimed.
+**How was it tested?** 83 engine cases plus seven jsdom interaction cases; exhaustive strings over `{a,b}` through length six for eight independently specified languages; exact DFA equivalence checks; built-worker execution. On 23 October, real-browser checks verified the main flows, persistence, JSON/SVG downloads and sampled desktop/mobile layouts. Genuine screenshots are supplied. Native print output and browser cancellation remain unverified.
 
 **What are the limits?** ASCII only; restricted regex/command syntax; bounded state counts; no general grammar editor; no real-shell execution; no URL reputation; no ML accuracy claim. Diagrams larger than 80 states use complete tables instead.
 
-## Manual browser checks still required
+## Final presentation checks
 
-Once browser access is available: inspect at desktop and 390px width; confirm no page-wide horizontal overflow; run the five-minute demo; use keyboard playback; save/reload; download and reimport JSON; export SVG; print an analysis to PDF; check cancellation; capture genuine screenshots of Analyse, witness replay, and Grammar & Stack. These checks are pending, not reported as completed.
+The 23 October review checked the main demo, keyboard range replay, save/reload, JSON download/reimport, SVG download and selected desktop/390px layouts, and captured genuine screenshots. It found and fixed a mobile comparison-graph overflow defect. Before presenting, rehearse on the actual presentation laptop, check the faculty rubric, and verify native browser print output and browser cancellation if you will demonstrate them. Broader browser/accessibility coverage is not claimed.

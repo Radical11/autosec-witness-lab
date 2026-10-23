@@ -1,6 +1,6 @@
 # Verification record
 
-Date: 22 October 2026. The machine's timezone is Asia/Kolkata.
+Updated: 23 October 2026. The machine's timezone is Asia/Kolkata.
 
 ## Confirmed
 
@@ -16,13 +16,19 @@ Date: 22 October 2026. The machine's timezone is Asia/Kolkata.
 
 The timestamped raw results are delivered in `output/evidence/tests.json` and `output/evidence/runtime-proof.json` in the workspace. Deployment outcome and HTTP asset checks are separately recorded in `output/evidence/deployment.json`.
 
-## Unverified
+## Real-browser review on 23 October
 
-Browser automation returned **“Local browser use is disabled in Work settings.”** No alternative automation was used to bypass that setting. Therefore real-browser rendering, 390px overflow behaviour, native storage persistence, actual JSON/SVG download and print behaviour, browser module-worker startup, and genuine UI screenshots remain unverified.
+Browser access became available. The published app was checked through genuine UI interactions in the Codex in-app browser. Verified flows: initial nested analysis; remove/restore a closing bracket; shortest `--a` witness and acceptance-disagreeing replay; equivalent forms; ε witness; invalid-regex diagnostic; parser replay through acceptance; mismatched PDA rejection; saved-case persistence across reload; JSON download/reimport with recomputation; SVG download; and keyboard End on playback ranges. No console errors were observed during the inspected session.
 
-The jsdom tests are not real-browser tests: storage and worker transport are substituted. The worker proof executes the actual production asset under Node, not a browser. Algorithm diagrams in the PDF are generated from actual result data and are explicitly labelled as diagrams, not screenshots.
+The review found a mobile CSS selector defect: `.compare-machines > .div` did not apply `min-width: 0` to the actual grid children. Correcting it to `.compare-machines > div` contained wide graphs in their scroll panels. Both the local fix and deployed release were checked at a 390px viewport; document width was 375px, with no page-wide overflow. The sampled desktop view also fit a 1440px viewport. Screenshots are genuine browser captures in `output/screenshots/`, and detailed results are in `output/evidence/browser-review-2026-10-23.json`.
 
-The manual browser checklist in `docs/DEMO_AND_VIVA.md` remains the final presentation-readiness gate. Screenshot files have intentionally not been fabricated.
+The 90-test suite and production build were rerun successfully. CI for release `fc5d69f` also passed. The dated original Node-worker measurement is preserved separately from these new browser checks.
+
+## Still unverified
+
+Native browser print output, browser cancellation/timeout interaction, exhaustive cross-browser behaviour, and comprehensive assistive-technology testing have not been verified. Cancellation is covered in the DOM tests. The DOM suite substitutes worker/storage and the Node harness is not a browser test; neither is being relabelled as real-browser evidence.
+
+The remaining presentation gate is a rehearsal on the actual presentation laptop and a check against the faculty's actual marking rubric, which has not been supplied. The separate team guide explains the implementation and viva topics.
 
 ## Publishing deviation
 

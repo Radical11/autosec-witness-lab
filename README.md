@@ -79,7 +79,9 @@ Versioned case JSON uses `schemaVersion: 1`, `engineVersion`, `exportedAt`, `cas
 
 ## Verification boundary
 
-Automated algorithm and DOM tests and the production build pass. The actual production worker bundle has been executed successfully. **Real-browser visual QA, narrow-screen rendering, download/print behaviour, and UI screenshots were not verified because local browser automation was disabled in Work settings.** DOM tests are not represented as browser tests. See the delivered verification evidence and report for exact measured outcomes and publication status.
+Automated algorithm and DOM tests and the production build pass. The actual production worker bundle has been executed successfully. On 23 October 2026, real-browser checks verified the main flows, persistence, JSON/SVG downloads, and selected desktop/mobile layouts. A comparison-graph overflow issue was fixed and rechecked on the deployed mobile view. Genuine screenshots are supplied. **Native browser print output, browser cancellation/timeout, and exhaustive cross-browser/accessibility coverage remain unverified.** DOM tests are documented separately. See `docs/VERIFICATION.md` for the full evidence boundary.
+
+For a beginner-friendly explanation of the app, algorithms, tech stack and source, read `docs/TEAM_EXPLANATION_AND_CODE_GUIDE.md` and the accompanying PDF in the submission package.
 
 ## Contribution and attribution
 

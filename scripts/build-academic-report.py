@@ -18,7 +18,7 @@ from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.platypus import (
     Flowable, KeepTogether, PageBreak, Paragraph, Preformatted,
-    SimpleDocTemplate, Spacer, Table, TableStyle,
+    SimpleDocTemplate, Spacer, Table, TableStyle, Image,
 )
 import pypdfium2 as pdfium
 from pypdf import PdfReader
@@ -224,6 +224,10 @@ def story_for(page_map):
         if text=='{{DFA_EQUATION}}':story.append(Equation());continue
         if text=='{{ARCHITECTURE_FIGURE}}':story.extend([Architecture(),Paragraph('Figure 1: The two independent analysis layers in AUTOSEC',CAPTION),Spacer(1,4)]);continue
         if text=='{{WITNESS_FIGURE}}':story.extend([Witness(),Paragraph('Figure 2: Synchronous replay on the shortest witness --a',CAPTION),Spacer(1,3)]);continue
+        if text=='{{APPLICATION_SCREENSHOT}}':
+            image=Image(str(OUT/'screenshots/01-analyse-desktop.jpg'))
+            image.drawWidth=280;image.drawHeight=280*image.imageHeight/image.imageWidth
+            story.append(KeepTogether([image,Paragraph('Figure 3: Published Analyse view, captured on 23 October 2026. Full-resolution captures accompany the evidence.',CAPTION)]));continue
         if text.startswith('{{') and text.endswith('_TABLE}}'):story.extend(tables(text[2:-2]));continue
         if text.startswith('```'):
             block=[]
@@ -264,6 +268,7 @@ expanded=expanded.replace('{{ABSTRACT_HEADING}}','## Abstract')
 expanded=expanded.replace('{{CONTENTS}}','## Contents\n\n'+'\n'.join(f'- {title} ... {final_map[title]}' for title,_ in entries))
 expanded=expanded.replace('{{DFA_EQUATION}}','M = (Q, Σ, δ, q₀, F)  (1)')
 for name in ['ARCHITECTURE_FIGURE','WITNESS_FIGURE']:expanded=expanded.replace('{{'+name+'}}','[Vector diagram in PDF; see source renderer and worker evidence.]')
+expanded=expanded.replace('{{APPLICATION_SCREENSHOT}}','![Published Analyse view, 23 October 2026](../screenshots/01-analyse-desktop.jpg)')
 for key in ['AUTOMATA_TABLE','SETS_TABLE','PARSE_TABLE','WITNESS_TABLE','RESULTS_TABLE','VERDICT_TABLE']:
     fs=tables(key);t=fs[0]._content[1]
     rows=[[p.getPlainText() for p in row] for row in t._cellvalues]
