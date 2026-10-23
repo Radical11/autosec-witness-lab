@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg
+  PUBLIC '-//W3C//DTD SVG 1.0//EN'
+  'http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd'>
+<svg width="471.27559055118115" height="84" preserveAspectRatio="xMinYMin meet" viewBox="0 0 471 84" xmlns="http://www.w3.org/2000/svg" version="1.0" fill-rule="evenodd" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<title>...</title>
+	<desc>...</desc>
+	<clipPath id="clip">
+		<rect x="0" y="0" width="471.27559055118115" height="84"/>
+	</clipPath>
+	<g id="group" transform="scale(1,-1) translate(0,-84)" style="clip-path: url(#clip)">
+		<g transform="">
+			<text x="0" y="58" style="font-family: Paper; font-size: 10px;fill: rgb(12%,14%,17%); stroke:none;" transform="translate(0,116) scale(1,-1)">Engine cases</text>
+			<rect x="95" y="56" width="326.27559055118115" height="14" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(38%,42%,47%); fill-rule: evenodd;"/>
+			<text x="429.27559055118115" y="59" style="font-family: PaperBold; font-size: 10px;fill: rgb(12%,14%,17%); stroke:none;" transform="translate(0,118) scale(1,-1)">83</text>
+			<text x="0" y="31" style="font-family: Paper; font-size: 10px;fill: rgb(12%,14%,17%); stroke:none;" transform="translate(0,62) scale(1,-1)">DOM cases</text>
+			<rect x="95" y="29" width="27.517218480220095" height="14" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(38%,42%,47%); fill-rule: evenodd;"/>
+			<text x="130.5172184802201" y="32" style="font-family: PaperBold; font-size: 10px;fill: rgb(12%,14%,17%); stroke:none;" transform="translate(0,64) scale(1,-1)">7</text>
+			<text x="97.20761949434058" y="4" style="font-family: Paper; font-size: 10px;fill: rgb(12%,14%,17%); stroke:none;" transform="translate(0,8) scale(1,-1)">8 languages × 127 strings × 3 recognisers = 3,048 recognition checks</text>
+		</g>
+	</g>
+</svg>

@@ -1,0 +1,31 @@
+{
+  "recordedAt": "2026-10-23T19:06:20.551340+00:00",
+  "observedDate": "2026-10-24",
+  "browser": "Codex in-app browser",
+  "url": "http://127.0.0.1:4173/",
+  "viewports": [
+    "1100x900",
+    "390x844"
+  ],
+  "verified": [
+    "valid command: Found and Valid",
+    "missing value: Found and Invalid",
+    "default comparison: --a, A accepts B rejects",
+    "computed paired trace through --a",
+    "missing bracket on mobile: Found and Invalid"
+  ],
+  "consoleWarningsAndErrors": [],
+  "mobile": {
+    "viewport": 390,
+    "documentWidth": 390
+  },
+  "captureProvenance": "Actual rendered app; heading clicked to remove input/button focus; screenshot API does not include pointer. Full originals retained; rejection-detail is a direct viewport excerpt. No screenshot result text or pixels retouched.",
+  "screenshots": [
+    "01-valid-command.jpg",
+    "02-missing-value.jpg",
+    "03-counterexample.jpg",
+    "04-counterexample-trace.jpg",
+    "05-mobile-missing-bracket.jpg",
+    "06-rejection-detail.jpg"
+  ]
+}

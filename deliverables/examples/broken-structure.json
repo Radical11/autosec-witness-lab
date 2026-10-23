@@ -1,0 +1,553 @@
+{
+  "schemaVersion": 1,
+  "engineVersion": "1.0.0",
+  "case": {
+    "name": "Broken Structure",
+    "input": "(inspect file",
+    "rules": [
+      {
+        "name": "Long flag",
+        "pattern": "--[a-z]+"
+      },
+      {
+        "name": "Statement separator",
+        "pattern": ";"
+      },
+      {
+        "name": "Parent traversal",
+        "pattern": "\\.\\./"
+      }
+    ],
+    "mode": "whole",
+    "left": "--[a-z]+",
+    "right": "--[a-z][a-z]+"
+  },
+  "result": {
+    "engineVersion": "1.0.0",
+    "input": "(inspect file",
+    "signatures": [
+      {
+        "name": "Long flag",
+        "pattern": "--[a-z]+",
+        "matches": [],
+        "matched": false,
+        "stateCount": 5
+      },
+      {
+        "name": "Statement separator",
+        "pattern": ";",
+        "matches": [],
+        "matched": false,
+        "stateCount": 3
+      },
+      {
+        "name": "Parent traversal",
+        "pattern": "\\.\\./",
+        "matches": [],
+        "matched": false,
+        "stateCount": 5
+      }
+    ],
+    "lex": {
+      "tokens": [
+        {
+          "type": "(",
+          "text": "(",
+          "start": 0,
+          "end": 1
+        },
+        {
+          "type": "WORD",
+          "text": "inspect",
+          "start": 1,
+          "end": 8
+        },
+        {
+          "type": "WORD",
+          "text": "file",
+          "start": 9,
+          "end": 13
+        }
+      ]
+    },
+    "parse": {
+      "accepted": false,
+      "trace": [
+        {
+          "stack": [
+            "Script",
+            "$"
+          ],
+          "remaining": [
+            "(",
+            "WORD",
+            "WORD",
+            "$"
+          ],
+          "offset": 0,
+          "action": "Script \u2192 Statement Rest"
+        },
+        {
+          "stack": [
+            "Statement",
+            "Rest",
+            "$"
+          ],
+          "remaining": [
+            "(",
+            "WORD",
+            "WORD",
+            "$"
+          ],
+          "offset": 0,
+          "action": "Statement \u2192 ( Script )"
+        },
+        {
+          "stack": [
+            "(",
+            "Script",
+            ")",
+            "Rest",
+            "$"
+          ],
+          "remaining": [
+            "(",
+            "WORD",
+            "WORD",
+            "$"
+          ],
+          "offset": 0,
+          "action": "Match (: \"(\""
+        },
+        {
+          "stack": [
+            "Script",
+            ")",
+            "Rest",
+            "$"
+          ],
+          "remaining": [
+            "WORD",
+            "WORD",
+            "$"
+          ],
+          "offset": 1,
+          "action": "Script \u2192 Statement Rest"
+        },
+        {
+          "stack": [
+            "Statement",
+            "Rest",
+            ")",
+            "Rest",
+            "$"
+          ],
+          "remaining": [
+            "WORD",
+            "WORD",
+            "$"
+          ],
+          "offset": 1,
+          "action": "Statement \u2192 WORD Args"
+        },
+        {
+          "stack": [
+            "WORD",
+            "Args",
+            "Rest",
+            ")",
+            "Rest",
+            "$"
+          ],
+          "remaining": [
+            "WORD",
+            "WORD",
+            "$"
+          ],
+          "offset": 1,
+          "action": "Match WORD: \"inspect\""
+        },
+        {
+          "stack": [
+            "Args",
+            "Rest",
+            ")",
+            "Rest",
+            "$"
+          ],
+          "remaining": [
+            "WORD",
+            "$"
+          ],
+          "offset": 9,
+          "action": "Args \u2192 Arg Args"
+        },
+        {
+          "stack": [
+            "Arg",
+            "Args",
+            "Rest",
+            ")",
+            "Rest",
+            "$"
+          ],
+          "remaining": [
+            "WORD",
+            "$"
+          ],
+          "offset": 9,
+          "action": "Arg \u2192 Value"
+        },
+        {
+          "stack": [
+            "Value",
+            "Args",
+            "Rest",
+            ")",
+            "Rest",
+            "$"
+          ],
+          "remaining": [
+            "WORD",
+            "$"
+          ],
+          "offset": 9,
+          "action": "Value \u2192 WORD"
+        },
+        {
+          "stack": [
+            "WORD",
+            "Args",
+            "Rest",
+            ")",
+            "Rest",
+            "$"
+          ],
+          "remaining": [
+            "WORD",
+            "$"
+          ],
+          "offset": 9,
+          "action": "Match WORD: \"file\""
+        },
+        {
+          "stack": [
+            "Args",
+            "Rest",
+            ")",
+            "Rest",
+            "$"
+          ],
+          "remaining": [
+            "$"
+          ],
+          "offset": 13,
+          "action": "Args \u2192 \u03b5"
+        },
+        {
+          "stack": [
+            "Rest",
+            ")",
+            "Rest",
+            "$"
+          ],
+          "remaining": [
+            "$"
+          ],
+          "offset": 13,
+          "action": "Rest \u2192 \u03b5"
+        },
+        {
+          "stack": [
+            ")",
+            "Rest",
+            "$"
+          ],
+          "remaining": [
+            "$"
+          ],
+          "offset": 13,
+          "action": "Reject: Expected ); found $."
+        }
+      ],
+      "nodes": [
+        {
+          "id": 0,
+          "symbol": "Script",
+          "children": [
+            1,
+            2
+          ]
+        },
+        {
+          "id": 1,
+          "symbol": "Statement",
+          "children": [
+            3,
+            4,
+            5
+          ]
+        },
+        {
+          "id": 2,
+          "symbol": "Rest",
+          "children": []
+        },
+        {
+          "id": 3,
+          "symbol": "(",
+          "children": [],
+          "token": {
+            "type": "(",
+            "text": "(",
+            "start": 0,
+            "end": 1
+          }
+        },
+        {
+          "id": 4,
+          "symbol": "Script",
+          "children": [
+            6,
+            7
+          ]
+        },
+        {
+          "id": 5,
+          "symbol": ")",
+          "children": []
+        },
+        {
+          "id": 6,
+          "symbol": "Statement",
+          "children": [
+            8,
+            9
+          ]
+        },
+        {
+          "id": 7,
+          "symbol": "Rest",
+          "children": [
+            15
+          ]
+        },
+        {
+          "id": 8,
+          "symbol": "WORD",
+          "children": [],
+          "token": {
+            "type": "WORD",
+            "text": "inspect",
+            "start": 1,
+            "end": 8
+          }
+        },
+        {
+          "id": 9,
+          "symbol": "Args",
+          "children": [
+            10,
+            11
+          ]
+        },
+        {
+          "id": 10,
+          "symbol": "Arg",
+          "children": [
+            12
+          ]
+        },
+        {
+          "id": 11,
+          "symbol": "Args",
+          "children": [
+            14
+          ]
+        },
+        {
+          "id": 12,
+          "symbol": "Value",
+          "children": [
+            13
+          ]
+        },
+        {
+          "id": 13,
+          "symbol": "WORD",
+          "children": [],
+          "token": {
+            "type": "WORD",
+            "text": "file",
+            "start": 9,
+            "end": 13
+          }
+        },
+        {
+          "id": 14,
+          "symbol": "\u03b5",
+          "children": []
+        },
+        {
+          "id": 15,
+          "symbol": "\u03b5",
+          "children": []
+        }
+      ],
+      "error": {
+        "message": "Expected ); found $.",
+        "offset": 13,
+        "expected": [
+          ")"
+        ]
+      }
+    },
+    "grammar": {
+      "first": {
+        "Script": [
+          "(",
+          "WORD"
+        ],
+        "Rest": [
+          ";",
+          "\u03b5"
+        ],
+        "Statement": [
+          "(",
+          "WORD"
+        ],
+        "Args": [
+          "FLAG",
+          "QUOTED",
+          "WORD",
+          "\u03b5"
+        ],
+        "Arg": [
+          "FLAG",
+          "QUOTED",
+          "WORD"
+        ],
+        "Value": [
+          "QUOTED",
+          "WORD"
+        ]
+      },
+      "follow": {
+        "Script": [
+          "$",
+          ")"
+        ],
+        "Rest": [
+          "$",
+          ")"
+        ],
+        "Statement": [
+          "$",
+          ")",
+          ";"
+        ],
+        "Args": [
+          "$",
+          ")",
+          ";"
+        ],
+        "Arg": [
+          "$",
+          ")",
+          ";",
+          "FLAG",
+          "QUOTED",
+          "WORD"
+        ],
+        "Value": [
+          "$",
+          ")",
+          ";",
+          "FLAG",
+          "QUOTED",
+          "WORD"
+        ]
+      },
+      "table": {
+        "Script": {
+          "WORD": [
+            "Statement",
+            "Rest"
+          ],
+          "(": [
+            "Statement",
+            "Rest"
+          ]
+        },
+        "Rest": {
+          ";": [
+            ";",
+            "Statement",
+            "Rest"
+          ],
+          "$": [],
+          ")": []
+        },
+        "Statement": {
+          "WORD": [
+            "WORD",
+            "Args"
+          ],
+          "(": [
+            "(",
+            "Script",
+            ")"
+          ]
+        },
+        "Args": {
+          "FLAG": [
+            "Arg",
+            "Args"
+          ],
+          "WORD": [
+            "Arg",
+            "Args"
+          ],
+          "QUOTED": [
+            "Arg",
+            "Args"
+          ],
+          ";": [],
+          "$": [],
+          ")": []
+        },
+        "Arg": {
+          "FLAG": [
+            "FLAG",
+            "Value"
+          ],
+          "WORD": [
+            "Value"
+          ],
+          "QUOTED": [
+            "Value"
+          ]
+        },
+        "Value": {
+          "WORD": [
+            "WORD"
+          ],
+          "QUOTED": [
+            "QUOTED"
+          ]
+        }
+      },
+      "terminals": [
+        "(",
+        ")",
+        ";",
+        "FLAG",
+        "QUOTED",
+        "WORD",
+        "$"
+      ]
+    },
+    "patternMatched": false,
+    "structureAccepted": false
+  }
+}

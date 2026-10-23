@@ -1,0 +1,38 @@
+{
+  "date": "2026-10-24",
+  "pages": 12,
+  "references": 12,
+  "referenceYears": [
+    2023,
+    2024,
+    2023,
+    2025,
+    2025,
+    2023,
+    2022,
+    2024,
+    2023,
+    2023,
+    2022,
+    2023
+  ],
+  "allReferencesWithinFiveYears": true,
+  "unresolvedPlaceholders": false,
+  "reportSha256": "e3960827205afb2442fa488acb8e06ce943744f9651b865597429ddf4f67eadc",
+  "style": "A4 academic project report, IEEE-style technical prose, numbered references, Roman section/table numbering; not represented as an IEEE publication",
+  "screenshots": "Genuine browser captures; no visible pointer; full originals and one viewport excerpt included",
+  "textLengths": [
+    364,
+    2500,
+    2503,
+    2413,
+    2415,
+    2012,
+    2390,
+    2273,
+    748,
+    2166,
+    2122,
+    2670
+  ]
+}

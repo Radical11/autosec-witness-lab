@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg
+  PUBLIC '-//W3C//DTD SVG 1.0//EN'
+  'http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd'>
+<svg width="471.27559055118115" height="130" preserveAspectRatio="xMinYMin meet" viewBox="0 0 471 130" xmlns="http://www.w3.org/2000/svg" version="1.0" fill-rule="evenodd" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<title>...</title>
+	<desc>...</desc>
+	<clipPath id="clip">
+		<rect x="0" y="0" width="471.27559055118115" height="130"/>
+	</clipPath>
+	<g id="group" transform="scale(1,-1) translate(0,-130)" style="clip-path: url(#clip)">
+		<g transform="">
+			<path d="M 40,57 L 85,57 Z" style="stroke: rgb(12%,14%,17%); stroke-linecap: butt; stroke-width: 0.8;"/>
+			<polygon points="85 57, 80.49776 59.17483, 80.49776 54.82517" style="stroke: rgb(12%,14%,17%); stroke-linecap: butt; stroke-width: 1; fill: rgb(12%,14%,17%); fill-rule: evenodd;"/>
+			<text x="60.502685546875" y="64.0" style="font-family: Paper; font-size: 9px;fill: rgb(12%,14%,17%); stroke:none;" transform="translate(0,128) scale(1,-1)">a</text>
+			<path d="M 259,57 L 304,57 Z" style="stroke: rgb(12%,14%,17%); stroke-linecap: butt; stroke-width: 0.8;"/>
+			<polygon points="304 57, 299.4978 59.17483, 299.4978 54.82517" style="stroke: rgb(12%,14%,17%); stroke-linecap: butt; stroke-width: 1; fill: rgb(12%,14%,17%); fill-rule: evenodd;"/>
+			<text x="279.25" y="64.0" style="font-family: Paper; font-size: 9px;fill: rgb(12%,14%,17%); stroke:none;" transform="translate(0,128) scale(1,-1)">b</text>
+			<path d="M 186,57 L 231,57 Z" style="stroke: rgb(12%,14%,17%); stroke-linecap: butt; stroke-width: 0.8;"/>
+			<polygon points="231 57, 226.4978 59.17483, 226.4978 54.82517" style="stroke: rgb(12%,14%,17%); stroke-linecap: butt; stroke-width: 1; fill: rgb(12%,14%,17%); fill-rule: evenodd;"/>
+			<text x="206.6103515625" y="64.0" style="font-family: Paper; font-size: 9px;fill: rgb(12%,14%,17%); stroke:none;" transform="translate(0,128) scale(1,-1)">ε</text>
+			<path d="M 332,57 L 429.275591,57 Z" style="stroke: rgb(12%,14%,17%); stroke-linecap: butt; stroke-width: 0.8;"/>
+			<polygon points="429.2756 57, 424.7734 59.17483, 424.7734 54.82517" style="stroke: rgb(12%,14%,17%); stroke-linecap: butt; stroke-width: 1; fill: rgb(12%,14%,17%); fill-rule: evenodd;"/>
+			<text x="378.7481468380906" y="64.0" style="font-family: Paper; font-size: 9px;fill: rgb(12%,14%,17%); stroke:none;" transform="translate(0,128) scale(1,-1)">ε</text>
+			<path d="M 172 71 C 172 113 443.275591 113 443.275591 71 " style="stroke: rgb(12%,14%,17%); stroke-linecap: butt; stroke-width: 0.8; fill: none; fill-rule: evenodd;"/>
+			<path d="M 443.275591,76 L 443.275591,71 Z" style="stroke: rgb(12%,14%,17%); stroke-linecap: butt; stroke-width: 0.8;"/>
+			<polygon points="443.2756 71, 445.4504 75.50224, 441.1008 75.50224" style="stroke: rgb(12%,14%,17%); stroke-linecap: butt; stroke-width: 1; fill: rgb(12%,14%,17%); fill-rule: evenodd;"/>
+			<text x="305.5381859005906" y="108" style="font-family: Paper; font-size: 10px;fill: rgb(12%,14%,17%); stroke:none;" transform="translate(0,216) scale(1,-1)">ε</text>
+			<path d="M 318 43 C 318 12 245 12 245 43 " style="stroke: rgb(12%,14%,17%); stroke-linecap: butt; stroke-width: 0.8; fill: none; fill-rule: evenodd;"/>
+			<path d="M 245,38 L 245,43 Z" style="stroke: rgb(12%,14%,17%); stroke-linecap: butt; stroke-width: 0.8;"/>
+			<polygon points="245 43, 242.8252 38.49776, 247.1748 38.49776" style="stroke: rgb(12%,14%,17%); stroke-linecap: butt; stroke-width: 1; fill: rgb(12%,14%,17%); fill-rule: evenodd;"/>
+			<text x="279.400390625" y="17" style="font-family: Paper; font-size: 10px;fill: rgb(12%,14%,17%); stroke:none;" transform="translate(0,34) scale(1,-1)">ε</text>
+			<path d="M 113,57 L 158,57 Z" style="stroke: rgb(12%,14%,17%); stroke-linecap: butt; stroke-width: 0.8;"/>
+			<polygon points="158 57, 153.4978 59.17483, 153.4978 54.82517" style="stroke: rgb(12%,14%,17%); stroke-linecap: butt; stroke-width: 1; fill: rgb(12%,14%,17%); fill-rule: evenodd;"/>
+			<text x="133.6103515625" y="64.0" style="font-family: Paper; font-size: 9px;fill: rgb(12%,14%,17%); stroke:none;" transform="translate(0,128) scale(1,-1)">ε</text>
+			<circle cx="26" cy="57" r="14" style="stroke: rgb(12%,14%,17%); stroke-linecap: butt; stroke-width: 1; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="21.5" y="54" style="font-family: Paper; font-size: 9px;fill: rgb(12%,14%,17%); stroke:none;" transform="translate(0,108) scale(1,-1)">q0</text>
+			<circle cx="99" cy="57" r="14" style="stroke: rgb(12%,14%,17%); stroke-linecap: butt; stroke-width: 1; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="94.5" y="54" style="font-family: Paper; font-size: 9px;fill: rgb(12%,14%,17%); stroke:none;" transform="translate(0,108) scale(1,-1)">q1</text>
+			<circle cx="172" cy="57" r="14" style="stroke: rgb(12%,14%,17%); stroke-linecap: butt; stroke-width: 1; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="167.5" y="54" style="font-family: Paper; font-size: 9px;fill: rgb(12%,14%,17%); stroke:none;" transform="translate(0,108) scale(1,-1)">q2</text>
+			<circle cx="245" cy="57" r="14" style="stroke: rgb(12%,14%,17%); stroke-linecap: butt; stroke-width: 1; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="240.5" y="54" style="font-family: Paper; font-size: 9px;fill: rgb(12%,14%,17%); stroke:none;" transform="translate(0,108) scale(1,-1)">q4</text>
+			<circle cx="318" cy="57" r="14" style="stroke: rgb(12%,14%,17%); stroke-linecap: butt; stroke-width: 1; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="313.5" y="54" style="font-family: Paper; font-size: 9px;fill: rgb(12%,14%,17%); stroke:none;" transform="translate(0,108) scale(1,-1)">q5</text>
+			<circle cx="443.27559055118115" cy="57" r="14" style="stroke: rgb(12%,14%,17%); stroke-linecap: butt; stroke-width: 1; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="438.77559055118115" y="54" style="font-family: Paper; font-size: 9px;fill: rgb(12%,14%,17%); stroke:none;" transform="translate(0,108) scale(1,-1)">q3</text>
+			<circle cx="443.27559055118115" cy="57" r="11" style="stroke: rgb(12%,14%,17%); stroke-linecap: butt; stroke-width: 0.8; fill: none; fill-rule: evenodd;"/>
+			<path d="M 0,57 L 12,57 Z" style="stroke: rgb(12%,14%,17%); stroke-linecap: butt; stroke-width: 0.8;"/>
+			<polygon points="12 57, 7.497764 59.17483, 7.497764 54.82517" style="stroke: rgb(12%,14%,17%); stroke-linecap: butt; stroke-width: 1; fill: rgb(12%,14%,17%); fill-rule: evenodd;"/>
+			<text x="125.17246324434056" y="2" style="font-family: Paper; font-size: 9px;fill: rgb(12%,14%,17%); stroke:none;" transform="translate(0,4) scale(1,-1)">All stored transitions shown; double circle marks acceptance.</text>
+		</g>
+	</g>
+</svg>

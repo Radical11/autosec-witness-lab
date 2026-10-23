@@ -1,0 +1,35 @@
+{
+  "status": "succeeded",
+  "host": "GitHub Pages",
+  "url": "https://radical11.github.io/autosec-witness-lab/",
+  "verifiedAt": "2026-10-23T19:06:23.183455+00:00",
+  "appSourceCommit": "748cfdecf48f5e474bc119947fd9f582bcb838a7",
+  "workflow": "https://github.com/Radical11/autosec-witness-lab/actions/runs/39945793411",
+  "workflowConclusion": "success",
+  "note": "Current simplified runtime; later documentation/output commits do not change the app. HTTP checks are separate from local browser checks.",
+  "httpChecks": [
+    {
+      "url": "https://radical11.github.io/autosec-witness-lab/",
+      "status": 200,
+      "titleExpected": true
+    },
+    {
+      "url": "https://radical11.github.io/autosec-witness-lab/assets/index-DwbhpiKE.js",
+      "status": 200,
+      "bytes": 227976,
+      "sha256": "ade1ef8bd3d0ba66c525cd62cdf815dda978278881dd232ee062d6c0b9eed87e"
+    },
+    {
+      "url": "https://radical11.github.io/autosec-witness-lab/assets/index-DLVadOrI.css",
+      "status": 200,
+      "bytes": 3373,
+      "sha256": "4f4cde5bf0ddafa2ae33c551a313093e8399d6b3f148fa441b7567d7cdad1634"
+    },
+    {
+      "url": "https://radical11.github.io/autosec-witness-lab/assets/worker-CYORg6DF.js",
+      "status": 200,
+      "bytes": 11949,
+      "sha256": "a7eff5c000fbcb9847707d4f0d55170e106531b543bddd690a6580b746e3938e"
+    }
+  ]
+}

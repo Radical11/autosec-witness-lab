@@ -1,0 +1,29 @@
+{
+  "observedDate": "2026-10-23",
+  "recordedAt": "2026-10-23T19:06:20.552340+00:00",
+  "provenance": "Recorded from the successful Playwright command output and verification note in this task; not re-executed under a new date.",
+  "url": "http://127.0.0.1:4173/",
+  "browser": "Chrome controlled by Playwright; Browser plugin unavailable in that session",
+  "viewports": [
+    "1280x900",
+    "390x844"
+  ],
+  "passed": true,
+  "verified": [
+    "nested acceptance",
+    "missing flag value",
+    "missing bracket",
+    "optional steps",
+    "results cleared on edit",
+    "plain command",
+    "--a witness and actual trace",
+    "equivalence",
+    "empty witness",
+    "invalid regex",
+    "mobile layout",
+    "real-worker cancellation with delayed worker loading"
+  ],
+  "consoleErrors": [],
+  "externalRequests": [],
+  "mobileDocumentWidth": 390
+}

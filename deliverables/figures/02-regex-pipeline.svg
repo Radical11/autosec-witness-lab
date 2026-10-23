@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg
+  PUBLIC '-//W3C//DTD SVG 1.0//EN'
+  'http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd'>
+<svg width="471.27559055118115" height="42" preserveAspectRatio="xMinYMin meet" viewBox="0 0 471 42" xmlns="http://www.w3.org/2000/svg" version="1.0" fill-rule="evenodd" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<title>...</title>
+	<desc>...</desc>
+	<clipPath id="clip">
+		<rect x="0" y="0" width="471.27559055118115" height="42"/>
+	</clipPath>
+	<g id="group" transform="scale(1,-1) translate(0,-42)" style="clip-path: url(#clip)">
+		<g transform="">
+			<rect x="0.0" y="8" width="98.0" height="28" style="stroke: rgb(12%,14%,17%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(94%,94%,95%); fill-rule: evenodd;"/>
+			<text x="24.97412109375" y="22.0" style="font-family: PaperBold; font-size: 10px;fill: rgb(12%,14%,17%); stroke:none;" transform="translate(0,44) scale(1,-1)">Regex AST</text>
+			<path d="M 98,22 L 124.425197,22 Z" style="stroke: rgb(12%,14%,17%); stroke-linecap: butt; stroke-width: 0.8;"/>
+			<polygon points="124.4252 22, 119.923 24.17483, 119.923 19.82517" style="stroke: rgb(12%,14%,17%); stroke-linecap: butt; stroke-width: 1; fill: rgb(12%,14%,17%); fill-rule: evenodd;"/>
+			<rect x="124.42519685039372" y="8" width="98.0" height="28" style="stroke: rgb(12%,14%,17%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(94%,94%,95%); fill-rule: evenodd;"/>
+			<text x="159.34804841289372" y="22.0" style="font-family: PaperBold; font-size: 10px;fill: rgb(12%,14%,17%); stroke:none;" transform="translate(0,44) scale(1,-1)">ε-NFA</text>
+			<path d="M 222.425197,22 L 248.850394,22 Z" style="stroke: rgb(12%,14%,17%); stroke-linecap: butt; stroke-width: 0.8;"/>
+			<polygon points="248.8504 22, 244.3482 24.17483, 244.3482 19.82517" style="stroke: rgb(12%,14%,17%); stroke-linecap: butt; stroke-width: 1; fill: rgb(12%,14%,17%); fill-rule: evenodd;"/>
+			<rect x="248.85039370078744" y="8" width="98.0" height="28" style="stroke: rgb(12%,14%,17%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(94%,94%,95%); fill-rule: evenodd;"/>
+			<text x="272.15215151328744" y="22.0" style="font-family: PaperBold; font-size: 10px;fill: rgb(12%,14%,17%); stroke:none;" transform="translate(0,44) scale(1,-1)">Subset DFA</text>
+			<path d="M 346.850394,22 L 373.275591,22 Z" style="stroke: rgb(12%,14%,17%); stroke-linecap: butt; stroke-width: 0.8;"/>
+			<polygon points="373.2756 22, 368.7734 24.17483, 368.7734 19.82517" style="stroke: rgb(12%,14%,17%); stroke-linecap: butt; stroke-width: 1; fill: rgb(12%,14%,17%); fill-rule: evenodd;"/>
+			<rect x="373.27559055118115" y="8" width="98.0" height="28" style="stroke: rgb(12%,14%,17%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(94%,94%,95%); fill-rule: evenodd;"/>
+			<text x="392.41719211368115" y="22.0" style="font-family: PaperBold; font-size: 10px;fill: rgb(12%,14%,17%); stroke:none;" transform="translate(0,44) scale(1,-1)">Minimal DFA</text>
+		</g>
+	</g>
+</svg>

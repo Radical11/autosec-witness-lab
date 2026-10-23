@@ -1,0 +1,1313 @@
+{
+  "schemaVersion": 1,
+  "engineVersion": "1.0.0",
+  "case": {
+    "name": "Nested Inspection",
+    "input": "inspect --tag \"sample data\"; (check file; scan --mode quick)",
+    "rules": [
+      {
+        "name": "Long flag",
+        "pattern": "--[a-z]+"
+      },
+      {
+        "name": "Statement separator",
+        "pattern": ";"
+      },
+      {
+        "name": "Parent traversal",
+        "pattern": "\\.\\./"
+      }
+    ],
+    "mode": "whole",
+    "left": "--[a-z]+",
+    "right": "--[a-z][a-z]+"
+  },
+  "result": {
+    "engineVersion": "1.0.0",
+    "input": "inspect --tag \"sample data\"; (check file; scan --mode quick)",
+    "signatures": [
+      {
+        "name": "Long flag",
+        "pattern": "--[a-z]+",
+        "matches": [
+          {
+            "start": 8,
+            "end": 13
+          },
+          {
+            "start": 47,
+            "end": 53
+          }
+        ],
+        "matched": true,
+        "stateCount": 5
+      },
+      {
+        "name": "Statement separator",
+        "pattern": ";",
+        "matches": [
+          {
+            "start": 27,
+            "end": 28
+          },
+          {
+            "start": 40,
+            "end": 41
+          }
+        ],
+        "matched": true,
+        "stateCount": 3
+      },
+      {
+        "name": "Parent traversal",
+        "pattern": "\\.\\./",
+        "matches": [],
+        "matched": false,
+        "stateCount": 5
+      }
+    ],
+    "lex": {
+      "tokens": [
+        {
+          "type": "WORD",
+          "text": "inspect",
+          "start": 0,
+          "end": 7
+        },
+        {
+          "type": "FLAG",
+          "text": "--tag",
+          "start": 8,
+          "end": 13
+        },
+        {
+          "type": "QUOTED",
+          "text": "\"sample data\"",
+          "start": 14,
+          "end": 27
+        },
+        {
+          "type": ";",
+          "text": ";",
+          "start": 27,
+          "end": 28
+        },
+        {
+          "type": "(",
+          "text": "(",
+          "start": 29,
+          "end": 30
+        },
+        {
+          "type": "WORD",
+          "text": "check",
+          "start": 30,
+          "end": 35
+        },
+        {
+          "type": "WORD",
+          "text": "file",
+          "start": 36,
+          "end": 40
+        },
+        {
+          "type": ";",
+          "text": ";",
+          "start": 40,
+          "end": 41
+        },
+        {
+          "type": "WORD",
+          "text": "scan",
+          "start": 42,
+          "end": 46
+        },
+        {
+          "type": "FLAG",
+          "text": "--mode",
+          "start": 47,
+          "end": 53
+        },
+        {
+          "type": "WORD",
+          "text": "quick",
+          "start": 54,
+          "end": 59
+        },
+        {
+          "type": ")",
+          "text": ")",
+          "start": 59,
+          "end": 60
+        }
+      ]
+    },
+    "parse": {
+      "accepted": true,
+      "trace": [
+        {
+          "stack": [
+            "Script",
+            "$"
+          ],
+          "remaining": [
+            "WORD",
+            "FLAG",
+            "QUOTED",
+            ";",
+            "(",
+            "WORD",
+            "WORD",
+            ";",
+            "WORD",
+            "FLAG",
+            "WORD",
+            ")",
+            "$"
+          ],
+          "offset": 0,
+          "action": "Script \u2192 Statement Rest"
+        },
+        {
+          "stack": [
+            "Statement",
+            "Rest",
+            "$"
+          ],
+          "remaining": [
+            "WORD",
+            "FLAG",
+            "QUOTED",
+            ";",
+            "(",
+            "WORD",
+            "WORD",
+            ";",
+            "WORD",
+            "FLAG",
+            "WORD",
+            ")",
+            "$"
+          ],
+          "offset": 0,
+          "action": "Statement \u2192 WORD Args"
+        },
+        {
+          "stack": [
+            "WORD",
+            "Args",
+            "Rest",
+            "$"
+          ],
+          "remaining": [
+            "WORD",
+            "FLAG",
+            "QUOTED",
+            ";",
+            "(",
+            "WORD",
+            "WORD",
+            ";",
+            "WORD",
+            "FLAG",
+            "WORD",
+            ")",
+            "$"
+          ],
+          "offset": 0,
+          "action": "Match WORD: \"inspect\""
+        },
+        {
+          "stack": [
+            "Args",
+            "Rest",
+            "$"
+          ],
+          "remaining": [
+            "FLAG",
+            "QUOTED",
+            ";",
+            "(",
+            "WORD",
+            "WORD",
+            ";",
+            "WORD",
+            "FLAG",
+            "WORD",
+            ")",
+            "$"
+          ],
+          "offset": 8,
+          "action": "Args \u2192 Arg Args"
+        },
+        {
+          "stack": [
+            "Arg",
+            "Args",
+            "Rest",
+            "$"
+          ],
+          "remaining": [
+            "FLAG",
+            "QUOTED",
+            ";",
+            "(",
+            "WORD",
+            "WORD",
+            ";",
+            "WORD",
+            "FLAG",
+            "WORD",
+            ")",
+            "$"
+          ],
+          "offset": 8,
+          "action": "Arg \u2192 FLAG Value"
+        },
+        {
+          "stack": [
+            "FLAG",
+            "Value",
+            "Args",
+            "Rest",
+            "$"
+          ],
+          "remaining": [
+            "FLAG",
+            "QUOTED",
+            ";",
+            "(",
+            "WORD",
+            "WORD",
+            ";",
+            "WORD",
+            "FLAG",
+            "WORD",
+            ")",
+            "$"
+          ],
+          "offset": 8,
+          "action": "Match FLAG: \"--tag\""
+        },
+        {
+          "stack": [
+            "Value",
+            "Args",
+            "Rest",
+            "$"
+          ],
+          "remaining": [
+            "QUOTED",
+            ";",
+            "(",
+            "WORD",
+            "WORD",
+            ";",
+            "WORD",
+            "FLAG",
+            "WORD",
+            ")",
+            "$"
+          ],
+          "offset": 14,
+          "action": "Value \u2192 QUOTED"
+        },
+        {
+          "stack": [
+            "QUOTED",
+            "Args",
+            "Rest",
+            "$"
+          ],
+          "remaining": [
+            "QUOTED",
+            ";",
+            "(",
+            "WORD",
+            "WORD",
+            ";",
+            "WORD",
+            "FLAG",
+            "WORD",
+            ")",
+            "$"
+          ],
+          "offset": 14,
+          "action": "Match QUOTED: \"\\\"sample data\\\"\""
+        },
+        {
+          "stack": [
+            "Args",
+            "Rest",
+            "$"
+          ],
+          "remaining": [
+            ";",
+            "(",
+            "WORD",
+            "WORD",
+            ";",
+            "WORD",
+            "FLAG",
+            "WORD",
+            ")",
+            "$"
+          ],
+          "offset": 27,
+          "action": "Args \u2192 \u03b5"
+        },
+        {
+          "stack": [
+            "Rest",
+            "$"
+          ],
+          "remaining": [
+            ";",
+            "(",
+            "WORD",
+            "WORD",
+            ";",
+            "WORD",
+            "FLAG",
+            "WORD",
+            ")",
+            "$"
+          ],
+          "offset": 27,
+          "action": "Rest \u2192 ; Statement Rest"
+        },
+        {
+          "stack": [
+            ";",
+            "Statement",
+            "Rest",
+            "$"
+          ],
+          "remaining": [
+            ";",
+            "(",
+            "WORD",
+            "WORD",
+            ";",
+            "WORD",
+            "FLAG",
+            "WORD",
+            ")",
+            "$"
+          ],
+          "offset": 27,
+          "action": "Match ;: \";\""
+        },
+        {
+          "stack": [
+            "Statement",
+            "Rest",
+            "$"
+          ],
+          "remaining": [
+            "(",
+            "WORD",
+            "WORD",
+            ";",
+            "WORD",
+            "FLAG",
+            "WORD",
+            ")",
+            "$"
+          ],
+          "offset": 29,
+          "action": "Statement \u2192 ( Script )"
+        },
+        {
+          "stack": [
+            "(",
+            "Script",
+            ")",
+            "Rest",
+            "$"
+          ],
+          "remaining": [
+            "(",
+            "WORD",
+            "WORD",
+            ";",
+            "WORD",
+            "FLAG",
+            "WORD",
+            ")",
+            "$"
+          ],
+          "offset": 29,
+          "action": "Match (: \"(\""
+        },
+        {
+          "stack": [
+            "Script",
+            ")",
+            "Rest",
+            "$"
+          ],
+          "remaining": [
+            "WORD",
+            "WORD",
+            ";",
+            "WORD",
+            "FLAG",
+            "WORD",
+            ")",
+            "$"
+          ],
+          "offset": 30,
+          "action": "Script \u2192 Statement Rest"
+        },
+        {
+          "stack": [
+            "Statement",
+            "Rest",
+            ")",
+            "Rest",
+            "$"
+          ],
+          "remaining": [
+            "WORD",
+            "WORD",
+            ";",
+            "WORD",
+            "FLAG",
+            "WORD",
+            ")",
+            "$"
+          ],
+          "offset": 30,
+          "action": "Statement \u2192 WORD Args"
+        },
+        {
+          "stack": [
+            "WORD",
+            "Args",
+            "Rest",
+            ")",
+            "Rest",
+            "$"
+          ],
+          "remaining": [
+            "WORD",
+            "WORD",
+            ";",
+            "WORD",
+            "FLAG",
+            "WORD",
+            ")",
+            "$"
+          ],
+          "offset": 30,
+          "action": "Match WORD: \"check\""
+        },
+        {
+          "stack": [
+            "Args",
+            "Rest",
+            ")",
+            "Rest",
+            "$"
+          ],
+          "remaining": [
+            "WORD",
+            ";",
+            "WORD",
+            "FLAG",
+            "WORD",
+            ")",
+            "$"
+          ],
+          "offset": 36,
+          "action": "Args \u2192 Arg Args"
+        },
+        {
+          "stack": [
+            "Arg",
+            "Args",
+            "Rest",
+            ")",
+            "Rest",
+            "$"
+          ],
+          "remaining": [
+            "WORD",
+            ";",
+            "WORD",
+            "FLAG",
+            "WORD",
+            ")",
+            "$"
+          ],
+          "offset": 36,
+          "action": "Arg \u2192 Value"
+        },
+        {
+          "stack": [
+            "Value",
+            "Args",
+            "Rest",
+            ")",
+            "Rest",
+            "$"
+          ],
+          "remaining": [
+            "WORD",
+            ";",
+            "WORD",
+            "FLAG",
+            "WORD",
+            ")",
+            "$"
+          ],
+          "offset": 36,
+          "action": "Value \u2192 WORD"
+        },
+        {
+          "stack": [
+            "WORD",
+            "Args",
+            "Rest",
+            ")",
+            "Rest",
+            "$"
+          ],
+          "remaining": [
+            "WORD",
+            ";",
+            "WORD",
+            "FLAG",
+            "WORD",
+            ")",
+            "$"
+          ],
+          "offset": 36,
+          "action": "Match WORD: \"file\""
+        },
+        {
+          "stack": [
+            "Args",
+            "Rest",
+            ")",
+            "Rest",
+            "$"
+          ],
+          "remaining": [
+            ";",
+            "WORD",
+            "FLAG",
+            "WORD",
+            ")",
+            "$"
+          ],
+          "offset": 40,
+          "action": "Args \u2192 \u03b5"
+        },
+        {
+          "stack": [
+            "Rest",
+            ")",
+            "Rest",
+            "$"
+          ],
+          "remaining": [
+            ";",
+            "WORD",
+            "FLAG",
+            "WORD",
+            ")",
+            "$"
+          ],
+          "offset": 40,
+          "action": "Rest \u2192 ; Statement Rest"
+        },
+        {
+          "stack": [
+            ";",
+            "Statement",
+            "Rest",
+            ")",
+            "Rest",
+            "$"
+          ],
+          "remaining": [
+            ";",
+            "WORD",
+            "FLAG",
+            "WORD",
+            ")",
+            "$"
+          ],
+          "offset": 40,
+          "action": "Match ;: \";\""
+        },
+        {
+          "stack": [
+            "Statement",
+            "Rest",
+            ")",
+            "Rest",
+            "$"
+          ],
+          "remaining": [
+            "WORD",
+            "FLAG",
+            "WORD",
+            ")",
+            "$"
+          ],
+          "offset": 42,
+          "action": "Statement \u2192 WORD Args"
+        },
+        {
+          "stack": [
+            "WORD",
+            "Args",
+            "Rest",
+            ")",
+            "Rest",
+            "$"
+          ],
+          "remaining": [
+            "WORD",
+            "FLAG",
+            "WORD",
+            ")",
+            "$"
+          ],
+          "offset": 42,
+          "action": "Match WORD: \"scan\""
+        },
+        {
+          "stack": [
+            "Args",
+            "Rest",
+            ")",
+            "Rest",
+            "$"
+          ],
+          "remaining": [
+            "FLAG",
+            "WORD",
+            ")",
+            "$"
+          ],
+          "offset": 47,
+          "action": "Args \u2192 Arg Args"
+        },
+        {
+          "stack": [
+            "Arg",
+            "Args",
+            "Rest",
+            ")",
+            "Rest",
+            "$"
+          ],
+          "remaining": [
+            "FLAG",
+            "WORD",
+            ")",
+            "$"
+          ],
+          "offset": 47,
+          "action": "Arg \u2192 FLAG Value"
+        },
+        {
+          "stack": [
+            "FLAG",
+            "Value",
+            "Args",
+            "Rest",
+            ")",
+            "Rest",
+            "$"
+          ],
+          "remaining": [
+            "FLAG",
+            "WORD",
+            ")",
+            "$"
+          ],
+          "offset": 47,
+          "action": "Match FLAG: \"--mode\""
+        },
+        {
+          "stack": [
+            "Value",
+            "Args",
+            "Rest",
+            ")",
+            "Rest",
+            "$"
+          ],
+          "remaining": [
+            "WORD",
+            ")",
+            "$"
+          ],
+          "offset": 54,
+          "action": "Value \u2192 WORD"
+        },
+        {
+          "stack": [
+            "WORD",
+            "Args",
+            "Rest",
+            ")",
+            "Rest",
+            "$"
+          ],
+          "remaining": [
+            "WORD",
+            ")",
+            "$"
+          ],
+          "offset": 54,
+          "action": "Match WORD: \"quick\""
+        },
+        {
+          "stack": [
+            "Args",
+            "Rest",
+            ")",
+            "Rest",
+            "$"
+          ],
+          "remaining": [
+            ")",
+            "$"
+          ],
+          "offset": 59,
+          "action": "Args \u2192 \u03b5"
+        },
+        {
+          "stack": [
+            "Rest",
+            ")",
+            "Rest",
+            "$"
+          ],
+          "remaining": [
+            ")",
+            "$"
+          ],
+          "offset": 59,
+          "action": "Rest \u2192 \u03b5"
+        },
+        {
+          "stack": [
+            ")",
+            "Rest",
+            "$"
+          ],
+          "remaining": [
+            ")",
+            "$"
+          ],
+          "offset": 59,
+          "action": "Match ): \")\""
+        },
+        {
+          "stack": [
+            "Rest",
+            "$"
+          ],
+          "remaining": [
+            "$"
+          ],
+          "offset": 60,
+          "action": "Rest \u2192 \u03b5"
+        },
+        {
+          "stack": [
+            "$"
+          ],
+          "remaining": [
+            "$"
+          ],
+          "offset": 60,
+          "action": "Accept: input and stack reached $."
+        }
+      ],
+      "nodes": [
+        {
+          "id": 0,
+          "symbol": "Script",
+          "children": [
+            1,
+            2
+          ]
+        },
+        {
+          "id": 1,
+          "symbol": "Statement",
+          "children": [
+            3,
+            4
+          ]
+        },
+        {
+          "id": 2,
+          "symbol": "Rest",
+          "children": [
+            11,
+            12,
+            13
+          ]
+        },
+        {
+          "id": 3,
+          "symbol": "WORD",
+          "children": [],
+          "token": {
+            "type": "WORD",
+            "text": "inspect",
+            "start": 0,
+            "end": 7
+          }
+        },
+        {
+          "id": 4,
+          "symbol": "Args",
+          "children": [
+            5,
+            6
+          ]
+        },
+        {
+          "id": 5,
+          "symbol": "Arg",
+          "children": [
+            7,
+            8
+          ]
+        },
+        {
+          "id": 6,
+          "symbol": "Args",
+          "children": [
+            10
+          ]
+        },
+        {
+          "id": 7,
+          "symbol": "FLAG",
+          "children": [],
+          "token": {
+            "type": "FLAG",
+            "text": "--tag",
+            "start": 8,
+            "end": 13
+          }
+        },
+        {
+          "id": 8,
+          "symbol": "Value",
+          "children": [
+            9
+          ]
+        },
+        {
+          "id": 9,
+          "symbol": "QUOTED",
+          "children": [],
+          "token": {
+            "type": "QUOTED",
+            "text": "\"sample data\"",
+            "start": 14,
+            "end": 27
+          }
+        },
+        {
+          "id": 10,
+          "symbol": "\u03b5",
+          "children": []
+        },
+        {
+          "id": 11,
+          "symbol": ";",
+          "children": [],
+          "token": {
+            "type": ";",
+            "text": ";",
+            "start": 27,
+            "end": 28
+          }
+        },
+        {
+          "id": 12,
+          "symbol": "Statement",
+          "children": [
+            14,
+            15,
+            16
+          ]
+        },
+        {
+          "id": 13,
+          "symbol": "Rest",
+          "children": [
+            38
+          ]
+        },
+        {
+          "id": 14,
+          "symbol": "(",
+          "children": [],
+          "token": {
+            "type": "(",
+            "text": "(",
+            "start": 29,
+            "end": 30
+          }
+        },
+        {
+          "id": 15,
+          "symbol": "Script",
+          "children": [
+            17,
+            18
+          ]
+        },
+        {
+          "id": 16,
+          "symbol": ")",
+          "children": [],
+          "token": {
+            "type": ")",
+            "text": ")",
+            "start": 59,
+            "end": 60
+          }
+        },
+        {
+          "id": 17,
+          "symbol": "Statement",
+          "children": [
+            19,
+            20
+          ]
+        },
+        {
+          "id": 18,
+          "symbol": "Rest",
+          "children": [
+            26,
+            27,
+            28
+          ]
+        },
+        {
+          "id": 19,
+          "symbol": "WORD",
+          "children": [],
+          "token": {
+            "type": "WORD",
+            "text": "check",
+            "start": 30,
+            "end": 35
+          }
+        },
+        {
+          "id": 20,
+          "symbol": "Args",
+          "children": [
+            21,
+            22
+          ]
+        },
+        {
+          "id": 21,
+          "symbol": "Arg",
+          "children": [
+            23
+          ]
+        },
+        {
+          "id": 22,
+          "symbol": "Args",
+          "children": [
+            25
+          ]
+        },
+        {
+          "id": 23,
+          "symbol": "Value",
+          "children": [
+            24
+          ]
+        },
+        {
+          "id": 24,
+          "symbol": "WORD",
+          "children": [],
+          "token": {
+            "type": "WORD",
+            "text": "file",
+            "start": 36,
+            "end": 40
+          }
+        },
+        {
+          "id": 25,
+          "symbol": "\u03b5",
+          "children": []
+        },
+        {
+          "id": 26,
+          "symbol": ";",
+          "children": [],
+          "token": {
+            "type": ";",
+            "text": ";",
+            "start": 40,
+            "end": 41
+          }
+        },
+        {
+          "id": 27,
+          "symbol": "Statement",
+          "children": [
+            29,
+            30
+          ]
+        },
+        {
+          "id": 28,
+          "symbol": "Rest",
+          "children": [
+            37
+          ]
+        },
+        {
+          "id": 29,
+          "symbol": "WORD",
+          "children": [],
+          "token": {
+            "type": "WORD",
+            "text": "scan",
+            "start": 42,
+            "end": 46
+          }
+        },
+        {
+          "id": 30,
+          "symbol": "Args",
+          "children": [
+            31,
+            32
+          ]
+        },
+        {
+          "id": 31,
+          "symbol": "Arg",
+          "children": [
+            33,
+            34
+          ]
+        },
+        {
+          "id": 32,
+          "symbol": "Args",
+          "children": [
+            36
+          ]
+        },
+        {
+          "id": 33,
+          "symbol": "FLAG",
+          "children": [],
+          "token": {
+            "type": "FLAG",
+            "text": "--mode",
+            "start": 47,
+            "end": 53
+          }
+        },
+        {
+          "id": 34,
+          "symbol": "Value",
+          "children": [
+            35
+          ]
+        },
+        {
+          "id": 35,
+          "symbol": "WORD",
+          "children": [],
+          "token": {
+            "type": "WORD",
+            "text": "quick",
+            "start": 54,
+            "end": 59
+          }
+        },
+        {
+          "id": 36,
+          "symbol": "\u03b5",
+          "children": []
+        },
+        {
+          "id": 37,
+          "symbol": "\u03b5",
+          "children": []
+        },
+        {
+          "id": 38,
+          "symbol": "\u03b5",
+          "children": []
+        }
+      ]
+    },
+    "grammar": {
+      "first": {
+        "Script": [
+          "(",
+          "WORD"
+        ],
+        "Rest": [
+          ";",
+          "\u03b5"
+        ],
+        "Statement": [
+          "(",
+          "WORD"
+        ],
+        "Args": [
+          "FLAG",
+          "QUOTED",
+          "WORD",
+          "\u03b5"
+        ],
+        "Arg": [
+          "FLAG",
+          "QUOTED",
+          "WORD"
+        ],
+        "Value": [
+          "QUOTED",
+          "WORD"
+        ]
+      },
+      "follow": {
+        "Script": [
+          "$",
+          ")"
+        ],
+        "Rest": [
+          "$",
+          ")"
+        ],
+        "Statement": [
+          "$",
+          ")",
+          ";"
+        ],
+        "Args": [
+          "$",
+          ")",
+          ";"
+        ],
+        "Arg": [
+          "$",
+          ")",
+          ";",
+          "FLAG",
+          "QUOTED",
+          "WORD"
+        ],
+        "Value": [
+          "$",
+          ")",
+          ";",
+          "FLAG",
+          "QUOTED",
+          "WORD"
+        ]
+      },
+      "table": {
+        "Script": {
+          "WORD": [
+            "Statement",
+            "Rest"
+          ],
+          "(": [
+            "Statement",
+            "Rest"
+          ]
+        },
+        "Rest": {
+          ";": [
+            ";",
+            "Statement",
+            "Rest"
+          ],
+          "$": [],
+          ")": []
+        },
+        "Statement": {
+          "WORD": [
+            "WORD",
+            "Args"
+          ],
+          "(": [
+            "(",
+            "Script",
+            ")"
+          ]
+        },
+        "Args": {
+          "FLAG": [
+            "Arg",
+            "Args"
+          ],
+          "WORD": [
+            "Arg",
+            "Args"
+          ],
+          "QUOTED": [
+            "Arg",
+            "Args"
+          ],
+          ";": [],
+          "$": [],
+          ")": []
+        },
+        "Arg": {
+          "FLAG": [
+            "FLAG",
+            "Value"
+          ],
+          "WORD": [
+            "Value"
+          ],
+          "QUOTED": [
+            "Value"
+          ]
+        },
+        "Value": {
+          "WORD": [
+            "WORD"
+          ],
+          "QUOTED": [
+            "QUOTED"
+          ]
+        }
+      },
+      "terminals": [
+        "(",
+        ")",
+        ";",
+        "FLAG",
+        "QUOTED",
+        "WORD",
+        "$"
+      ]
+    },
+    "patternMatched": true,
+    "structureAccepted": true
+  }
+}

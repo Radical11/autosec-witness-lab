@@ -1,0 +1,14 @@
+{
+  "date": "2026-10-24",
+  "tests": {
+    "engine": 83,
+    "dom": 7,
+    "total": 90,
+    "passed": true
+  },
+  "buildCommand": "npm.cmd run build",
+  "buildPassed": true,
+  "engineUnchanged": true,
+  "appSourceCommit": "748cfdecf48f5e474bc119947fd9f582bcb838a7",
+  "testCountsAreNotParticipantCounts": true
+}

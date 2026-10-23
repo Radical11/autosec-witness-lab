@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg
+  PUBLIC '-//W3C//DTD SVG 1.0//EN'
+  'http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd'>
+<svg width="471.27559055118115" height="175" preserveAspectRatio="xMinYMin meet" viewBox="0 0 471 175" xmlns="http://www.w3.org/2000/svg" version="1.0" fill-rule="evenodd" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<title>...</title>
+	<desc>...</desc>
+	<clipPath id="clip">
+		<rect x="0" y="0" width="471.27559055118115" height="175"/>
+	</clipPath>
+	<g id="group" transform="scale(1,-1) translate(0,-175)" style="clip-path: url(#clip)">
+		<g transform="">
+			<rect x="130.63779527559058" y="137" width="210.0" height="30" style="stroke: rgb(12%,14%,17%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(94%,94%,95%); fill-rule: evenodd;"/>
+			<text x="161.75595933809058" y="152.0" style="font-family: PaperBold; font-size: 10px;fill: rgb(12%,14%,17%); stroke:none;" transform="translate(0,304) scale(1,-1)">React input and two-task interface</text>
+			<path d="M 235.637795,137 L 235.637795,120 Z" style="stroke: rgb(12%,14%,17%); stroke-linecap: butt; stroke-width: 0.8;"/>
+			<polygon points="235.6378 120, 237.8126 124.5022, 233.463 124.5022" style="stroke: rgb(12%,14%,17%); stroke-linecap: butt; stroke-width: 1; fill: rgb(12%,14%,17%); fill-rule: evenodd;"/>
+			<rect x="139.63779527559058" y="89" width="192.0" height="30" style="stroke: rgb(12%,14%,17%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(94%,94%,95%); fill-rule: evenodd;"/>
+			<text x="183.13779527559058" y="104.0" style="font-family: PaperBold; font-size: 10px;fill: rgb(12%,14%,17%); stroke:none;" transform="translate(0,208) scale(1,-1)">Disposable Web Worker</text>
+			<path d="M 199.637795,89 L 115,71 Z" style="stroke: rgb(12%,14%,17%); stroke-linecap: butt; stroke-width: 0.8;"/>
+			<polygon points="115 71, 119.8562 69.8093, 118.9513 74.0638" style="stroke: rgb(12%,14%,17%); stroke-linecap: butt; stroke-width: 1; fill: rgb(12%,14%,17%); fill-rule: evenodd;"/>
+			<path d="M 271.637795,89 L 356.275591,71 Z" style="stroke: rgb(12%,14%,17%); stroke-linecap: butt; stroke-width: 0.8;"/>
+			<polygon points="356.2756 71, 352.3242 74.0638, 351.4194 69.8093" style="stroke: rgb(12%,14%,17%); stroke-linecap: butt; stroke-width: 1; fill: rgb(12%,14%,17%); fill-rule: evenodd;"/>
+			<rect x="8" y="35" width="214" height="35" style="stroke: rgb(12%,14%,17%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(94%,94%,95%); fill-rule: evenodd;"/>
+			<text x="85.703125" y="58.5" style="font-family: PaperBold; font-size: 10px;fill: rgb(12%,14%,17%); stroke:none;" transform="translate(0,117) scale(1,-1)">Regular layer</text>
+			<text x="41.94580078125" y="46.5" style="font-family: Paper; font-size: 10px;fill: rgb(12%,14%,17%); stroke:none;" transform="translate(0,93) scale(1,-1)">regex → NFA → DFA → minimum</text>
+			<rect x="249.27559055118115" y="35" width="214.0" height="35" style="stroke: rgb(12%,14%,17%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(94%,94%,95%); fill-rule: evenodd;"/>
+			<text x="321.97871555118115" y="58.5" style="font-family: PaperBold; font-size: 10px;fill: rgb(12%,14%,17%); stroke:none;" transform="translate(0,117) scale(1,-1)">Structural layer</text>
+			<text x="296.98603976993115" y="46.5" style="font-family: Paper; font-size: 10px;fill: rgb(12%,14%,17%); stroke:none;" transform="translate(0,93) scale(1,-1)">text → tokens → LL(1) parse</text>
+			<path d="M 115,35 L 160,18 Z" style="stroke: rgb(12%,14%,17%); stroke-linecap: butt; stroke-width: 0.8;"/>
+			<polygon points="160 18, 156.5569 21.62558, 155.0197 17.5566" style="stroke: rgb(12%,14%,17%); stroke-linecap: butt; stroke-width: 1; fill: rgb(12%,14%,17%); fill-rule: evenodd;"/>
+			<path d="M 356.275591,35 L 311.275591,18 Z" style="stroke: rgb(12%,14%,17%); stroke-linecap: butt; stroke-width: 0.8;"/>
+			<polygon points="311.2756 18, 316.2559 17.5566, 314.7187 21.62558" style="stroke: rgb(12%,14%,17%); stroke-linecap: butt; stroke-width: 1; fill: rgb(12%,14%,17%); fill-rule: evenodd;"/>
+			<text x="110.96128160371559" y="3" style="font-family: PaperBold; font-size: 11px;fill: rgb(12%,14%,17%); stroke:none;" transform="translate(0,6) scale(1,-1)">Independent verdicts, diagnostics and optional traces</text>
+		</g>
+	</g>
+</svg>

@@ -1,0 +1,401 @@
+{
+  "schemaVersion": 1,
+  "engineVersion": "1.0.0",
+  "case": {
+    "name": "Missing Value",
+    "input": "inspect --tag",
+    "rules": [
+      {
+        "name": "Long flag",
+        "pattern": "--[a-z]+"
+      },
+      {
+        "name": "Statement separator",
+        "pattern": ";"
+      },
+      {
+        "name": "Parent traversal",
+        "pattern": "\\.\\./"
+      }
+    ],
+    "mode": "whole",
+    "left": "--[a-z]+",
+    "right": "--[a-z][a-z]+"
+  },
+  "result": {
+    "engineVersion": "1.0.0",
+    "input": "inspect --tag",
+    "signatures": [
+      {
+        "name": "Long flag",
+        "pattern": "--[a-z]+",
+        "matches": [
+          {
+            "start": 8,
+            "end": 13
+          }
+        ],
+        "matched": true,
+        "stateCount": 5
+      },
+      {
+        "name": "Statement separator",
+        "pattern": ";",
+        "matches": [],
+        "matched": false,
+        "stateCount": 3
+      },
+      {
+        "name": "Parent traversal",
+        "pattern": "\\.\\./",
+        "matches": [],
+        "matched": false,
+        "stateCount": 5
+      }
+    ],
+    "lex": {
+      "tokens": [
+        {
+          "type": "WORD",
+          "text": "inspect",
+          "start": 0,
+          "end": 7
+        },
+        {
+          "type": "FLAG",
+          "text": "--tag",
+          "start": 8,
+          "end": 13
+        }
+      ]
+    },
+    "parse": {
+      "accepted": false,
+      "trace": [
+        {
+          "stack": [
+            "Script",
+            "$"
+          ],
+          "remaining": [
+            "WORD",
+            "FLAG",
+            "$"
+          ],
+          "offset": 0,
+          "action": "Script \u2192 Statement Rest"
+        },
+        {
+          "stack": [
+            "Statement",
+            "Rest",
+            "$"
+          ],
+          "remaining": [
+            "WORD",
+            "FLAG",
+            "$"
+          ],
+          "offset": 0,
+          "action": "Statement \u2192 WORD Args"
+        },
+        {
+          "stack": [
+            "WORD",
+            "Args",
+            "Rest",
+            "$"
+          ],
+          "remaining": [
+            "WORD",
+            "FLAG",
+            "$"
+          ],
+          "offset": 0,
+          "action": "Match WORD: \"inspect\""
+        },
+        {
+          "stack": [
+            "Args",
+            "Rest",
+            "$"
+          ],
+          "remaining": [
+            "FLAG",
+            "$"
+          ],
+          "offset": 8,
+          "action": "Args \u2192 Arg Args"
+        },
+        {
+          "stack": [
+            "Arg",
+            "Args",
+            "Rest",
+            "$"
+          ],
+          "remaining": [
+            "FLAG",
+            "$"
+          ],
+          "offset": 8,
+          "action": "Arg \u2192 FLAG Value"
+        },
+        {
+          "stack": [
+            "FLAG",
+            "Value",
+            "Args",
+            "Rest",
+            "$"
+          ],
+          "remaining": [
+            "FLAG",
+            "$"
+          ],
+          "offset": 8,
+          "action": "Match FLAG: \"--tag\""
+        },
+        {
+          "stack": [
+            "Value",
+            "Args",
+            "Rest",
+            "$"
+          ],
+          "remaining": [
+            "$"
+          ],
+          "offset": 13,
+          "action": "Reject: No production for Value with $. Expected WORD, QUOTED."
+        }
+      ],
+      "nodes": [
+        {
+          "id": 0,
+          "symbol": "Script",
+          "children": [
+            1,
+            2
+          ]
+        },
+        {
+          "id": 1,
+          "symbol": "Statement",
+          "children": [
+            3,
+            4
+          ]
+        },
+        {
+          "id": 2,
+          "symbol": "Rest",
+          "children": []
+        },
+        {
+          "id": 3,
+          "symbol": "WORD",
+          "children": [],
+          "token": {
+            "type": "WORD",
+            "text": "inspect",
+            "start": 0,
+            "end": 7
+          }
+        },
+        {
+          "id": 4,
+          "symbol": "Args",
+          "children": [
+            5,
+            6
+          ]
+        },
+        {
+          "id": 5,
+          "symbol": "Arg",
+          "children": [
+            7,
+            8
+          ]
+        },
+        {
+          "id": 6,
+          "symbol": "Args",
+          "children": []
+        },
+        {
+          "id": 7,
+          "symbol": "FLAG",
+          "children": [],
+          "token": {
+            "type": "FLAG",
+            "text": "--tag",
+            "start": 8,
+            "end": 13
+          }
+        },
+        {
+          "id": 8,
+          "symbol": "Value",
+          "children": []
+        }
+      ],
+      "error": {
+        "message": "No production for Value with $. Expected WORD, QUOTED.",
+        "offset": 13,
+        "expected": [
+          "WORD",
+          "QUOTED"
+        ]
+      }
+    },
+    "grammar": {
+      "first": {
+        "Script": [
+          "(",
+          "WORD"
+        ],
+        "Rest": [
+          ";",
+          "\u03b5"
+        ],
+        "Statement": [
+          "(",
+          "WORD"
+        ],
+        "Args": [
+          "FLAG",
+          "QUOTED",
+          "WORD",
+          "\u03b5"
+        ],
+        "Arg": [
+          "FLAG",
+          "QUOTED",
+          "WORD"
+        ],
+        "Value": [
+          "QUOTED",
+          "WORD"
+        ]
+      },
+      "follow": {
+        "Script": [
+          "$",
+          ")"
+        ],
+        "Rest": [
+          "$",
+          ")"
+        ],
+        "Statement": [
+          "$",
+          ")",
+          ";"
+        ],
+        "Args": [
+          "$",
+          ")",
+          ";"
+        ],
+        "Arg": [
+          "$",
+          ")",
+          ";",
+          "FLAG",
+          "QUOTED",
+          "WORD"
+        ],
+        "Value": [
+          "$",
+          ")",
+          ";",
+          "FLAG",
+          "QUOTED",
+          "WORD"
+        ]
+      },
+      "table": {
+        "Script": {
+          "WORD": [
+            "Statement",
+            "Rest"
+          ],
+          "(": [
+            "Statement",
+            "Rest"
+          ]
+        },
+        "Rest": {
+          ";": [
+            ";",
+            "Statement",
+            "Rest"
+          ],
+          "$": [],
+          ")": []
+        },
+        "Statement": {
+          "WORD": [
+            "WORD",
+            "Args"
+          ],
+          "(": [
+            "(",
+            "Script",
+            ")"
+          ]
+        },
+        "Args": {
+          "FLAG": [
+            "Arg",
+            "Args"
+          ],
+          "WORD": [
+            "Arg",
+            "Args"
+          ],
+          "QUOTED": [
+            "Arg",
+            "Args"
+          ],
+          ";": [],
+          "$": [],
+          ")": []
+        },
+        "Arg": {
+          "FLAG": [
+            "FLAG",
+            "Value"
+          ],
+          "WORD": [
+            "Value"
+          ],
+          "QUOTED": [
+            "Value"
+          ]
+        },
+        "Value": {
+          "WORD": [
+            "WORD"
+          ],
+          "QUOTED": [
+            "QUOTED"
+          ]
+        }
+      },
+      "terminals": [
+        "(",
+        ")",
+        ";",
+        "FLAG",
+        "QUOTED",
+        "WORD",
+        "$"
+      ]
+    },
+    "patternMatched": true,
+    "structureAccepted": false
+  }
+}

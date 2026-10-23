@@ -1,0 +1,137 @@
+{
+  "date": "2026-10-24",
+  "count": 12,
+  "allWithinFiveYears": true,
+  "references": [
+    {
+      "id": 1,
+      "year": 2023,
+      "authors": "P. Linz and S. H. Rodger",
+      "title": "An Introduction to Formal Languages and Automata",
+      "venue": "7th ed. Burlington, MA, USA: Jones & Bartlett Learning",
+      "detail": "ISBN 9781284231601",
+      "url": "https://www.jflap.org/linzbook7/",
+      "verified": "Author-maintained book page and publisher front matter; 2023 edition. Definitions and parsing context."
+    },
+    {
+      "id": 2,
+      "year": 2024,
+      "authors": "M. T. Morazán and T. Minić",
+      "title": "Finite-State Automaton To/From Regular Expression Visualization",
+      "venue": "Electronic Proceedings in Theoretical Computer Science",
+      "detail": "vol. 405, pp. 36–55",
+      "doi": "10.4204/EPTCS.405.3",
+      "url": "https://arxiv.org/abs/2407.08088",
+      "verified": "Publisher record and author-deposited full text. Stepwise transformations; no AUTOSEC efficacy result inferred."
+    },
+    {
+      "id": 3,
+      "year": 2023,
+      "authors": "O. Kempinski and M. T. Morazán",
+      "title": "Visualizing Why Nondeterministic Finite-State Automata Reject",
+      "venue": "arXiv preprint arXiv:2310.08025",
+      "detail": "presented at the Scheme and Functional Programming Workshop",
+      "doi": "10.48550/arXiv.2310.08025",
+      "url": "https://arxiv.org/abs/2310.08025",
+      "verified": "Author-deposited full text. Computation graphs for nondeterministic rejection. Explicitly identified as a preprint."
+    },
+    {
+      "id": 4,
+      "year": 2025,
+      "authors": "M. T. Morazán, D. A. K. Fields, A. M. Garced, and T. Minić",
+      "title": "Visual Execution and Validation of Finite-State Machines and Pushdown Automata",
+      "venue": "Electronic Proceedings in Theoretical Computer Science",
+      "detail": "vol. 424, pp. 87–108",
+      "doi": "10.4204/EPTCS.424.5",
+      "url": "https://arxiv.org/abs/2508.03641",
+      "verified": "Proceedings contents and author-deposited full text. Dynamic machine/stack explanations; no blanket feature-absence claim."
+    },
+    {
+      "id": 5,
+      "year": 2025,
+      "authors": "M. T. Morazán et al.",
+      "title": "A Design Recipe and Recipe-Based Errors for Regular Expressions",
+      "venue": "Electronic Proceedings in Theoretical Computer Science",
+      "detail": "vol. 424, pp. 25–48",
+      "doi": "10.4204/EPTCS.424.2",
+      "url": "https://arxiv.org/abs/2508.03639",
+      "verified": "Proceedings and full text; authors ordered as deposited. Concise diagnostics and design support."
+    },
+    {
+      "id": 6,
+      "year": 2023,
+      "authors": "C. Evans and E. W. Robson",
+      "title": "automata: A Python package for simulating and manipulating automata",
+      "venue": "Journal of Open Source Software",
+      "detail": "vol. 8, no. 90, Art. no. 5759",
+      "doi": "10.21105/joss.05759",
+      "url": "https://joss.theoj.org/papers/10.21105/joss.05759",
+      "verified": "Publisher metadata and full paper, published October 9, 2023. Automata API, simulation, product operations and equivalence already exist."
+    },
+    {
+      "id": 7,
+      "year": 2022,
+      "authors": "E. Muškardin, B. K. Aichernig, I. Pill, A. Pferscher, and M. Tappler",
+      "title": "AALpy: An active automata learning library",
+      "venue": "Innovations in Systems and Software Engineering",
+      "detail": "vol. 18, no. 3, pp. 417–426",
+      "doi": "10.1007/s11334-022-00449-3",
+      "url": "https://link.springer.com/article/10.1007/s11334-022-00449-3",
+      "verified": "Publisher and TU Graz institutional record. Active learning and equivalence oracles differ from explicit two-DFA exhaustive product search."
+    },
+    {
+      "id": 8,
+      "year": 2024,
+      "authors": "J. Dochkova-Todorova and I. Donchev",
+      "title": "STEM Approach to Build Competences from Automata and Languages Theory",
+      "venue": "Science Series Innovative STEM Education",
+      "detail": "vol. 6, pp. 35–54",
+      "doi": "10.55630/STEM.2024.0604",
+      "url": "https://doi.org/10.55630/STEM.2024.0604",
+      "verified": "Publisher abstract, issue contents and dated PDF. Programming-oriented learning tasks; not evidence of AUTOSEC learning gains."
+    },
+    {
+      "id": 9,
+      "year": 2023,
+      "authors": "I. E. Varatalu, M. Veanes, and J.-P. Ernits",
+      "title": "Derivative Based Extended Regular Expression Matching Supporting Intersection, Complement and Lookarounds",
+      "venue": "arXiv preprint arXiv:2309.14401",
+      "detail": "",
+      "doi": "10.48550/arXiv.2309.14401",
+      "url": "https://arxiv.org/abs/2309.14401",
+      "verified": "Author-deposited abstract and metadata. Extended regex semantics; explicitly a preprint, not mislabeled a journal publication."
+    },
+    {
+      "id": 10,
+      "year": 2023,
+      "authors": "C. Tan and C. Urban",
+      "title": "POSIX Lexing with Bitcoded Derivatives",
+      "venue": "Proc. 14th Int. Conf. Interactive Theorem Proving (LIPIcs)",
+      "detail": "vol. 268, pp. 27:1–27:18",
+      "doi": "10.4230/LIPIcs.ITP.2023.27",
+      "url": "https://drops.dagstuhl.de/entities/document/10.4230/LIPIcs.ITP.2023.27",
+      "verified": "Publisher full text and BibTeX. POSIX values, derivatives and mechanised correctness; AUTOSEC does not claim this proof level."
+    },
+    {
+      "id": 11,
+      "year": 2022,
+      "authors": "D. Egolf, S. Lasser, and K. Fisher",
+      "title": "Verbatim++: Verified, Optimized, and Semantically Rich Lexing with Derivatives",
+      "venue": "Proc. 11th ACM SIGPLAN Int. Conf. Certified Programs and Proofs",
+      "detail": "pp. 27–39",
+      "doi": "10.1145/3497775.3503694",
+      "url": "https://www.egolf.io/",
+      "verified": "Author publication list and primary ITP 2023 paper bibliography; ACM direct fetch returned 403. Cited only for its documented verified-lexing scope, not uninspected benchmark details."
+    },
+    {
+      "id": 12,
+      "year": 2023,
+      "authors": "World Wide Web Consortium",
+      "title": "Web Content Accessibility Guidelines (WCAG) 2.2",
+      "venue": "W3C Recommendation",
+      "detail": "Oct. 5",
+      "url": "https://www.w3.org/TR/2023/REC-WCAG22-20231005/",
+      "verified": "Dated official recommendation. Used for evaluation criteria only; no WCAG conformance certification claimed."
+    }
+  ]
+}
