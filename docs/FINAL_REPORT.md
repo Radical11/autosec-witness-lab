@@ -1,114 +1,90 @@
-# AUTOSEC
-## Counterexample-Driven Automata and Syntax Lab
-
-Models of Computation (BACSE201) — Final Project Report
-
-Bhoumik Singh Rajput — 25BYB0120
-
-Vihaan Jinesh Jain — 25BYB0130
-
-Guide: Dr. Dharmendra Singh Rajput (SCORE)
-
-Vellore Institute of Technology, Vellore
-
-Academic Year 2026–27 · 22 October 2026
-
-### Abstract
-
-AUTOSEC is an educational browser application that connects pattern recognition and nested syntax analysis to their computational models. A regular-expression engine constructs ε-NFAs, determinises them, and minimises the resulting DFAs. A separate lexer and predictive parser validate a restricted command-like language. The main contribution is a counterexample-driven workflow: two regular languages are compared exactly, a shortest distinguishing string is generated when they differ, and both machines replay that string together. Input mutations make the independence of pattern observations and structural acceptance visible. The implementation includes source offsets, construction traces, FIRST/FOLLOW sets, an LL(1) table, derivation trees, a delimiter PDA, and portable case evidence.
-
-Verification includes {{TEST_COUNT}} passing automated cases and execution of the actual production worker bundle. Real-browser visual QA and UI screenshots remain unverified because browser automation was disabled. The project makes no claim of production cybersecurity accuracy or a new automata algorithm.
+{{COVER}}
 
 <!-- pagebreak -->
 
-## 1. Problem, objectives, and contribution
+{{ABSTRACT_HEADING}}
 
-A textual signature does not determine whether an entire input has a valid structure. For example, both `inspect --tag sample` and `inspect --tag` contain a long flag. The second fails our grammar because every flag needs a value. Conversely, a valid script may contain none of the selected signatures. Treating these observations as one security label loses the explanation.
+AUTOSEC is a browser-based learning environment for examining how regular patterns and nested syntax require different computational models. A user enters a command-like string and receives two independent observations: whether selected textual signatures occur, and whether the token sequence belongs to a restricted command language. The regular-language engine parses expressions, constructs Thompson ε-NFAs, calculates ε-closures, performs subset construction, and minimises the resulting DFAs. The structural engine preserves token offsets, calculates FIRST and FOLLOW sets, builds an LL(1) parsing table, and records a predictive-parsing trace and derivation tree.
 
-AUTOSEC addresses this teaching problem through two separate recognition layers and a comparison experiment. The regular layer makes regex construction and deterministic recognition inspectable. The structural layer explains token order and recursive grouping. The comparison feature connects closure properties, product automata, and shortest paths to a concrete question: what is the smallest input on which two rules disagree?
+The central contribution is a counterexample-driven experiment. Given two regular expressions, AUTOSEC searches their product automaton for a shortest string accepted by exactly one rule. Synchronised replay makes the disagreement visible. Input mutations, including removal of a closing group or a flag value, then demonstrate why signature presence and grammatical validity must be interpreted separately. A dedicated pushdown-automaton view explains delimiter nesting through stack operations.
 
-### Objectives
+The implementation uses React and TypeScript, with computational tasks isolated in cancellable Web Workers. Portable case files preserve experiment inputs and rules. Recorded verification comprises {{TEST_COUNT}} passing automated tests, a successful production build, and execution of the actual production worker bundle. Real-browser visual verification and application screenshots were unavailable in the verification environment and are not claimed. AUTOSEC is an educational integration of established formal-language algorithms; it neither executes submitted commands nor claims production threat-detection accuracy.
 
-- Implement real regex-to-automata transformations and expose their intermediate data.
-- Validate nested command-like scripts with a generated predictive parsing table.
-- Produce shortest regular-language counterexamples and synchronised replay.
-- Explain changes caused by small input mutations rather than returning an unexplained label.
-- Preserve reproducible case inputs, rules, offsets, results, and verification evidence.
-
-### Originality and boundaries
-
-The contribution is the integration of standard algorithms into one experiment: compare rules, obtain a witness, trace both machines, and contrast raw pattern findings with syntax. It develops the supplied AUTOSEC Review 1 proposal. A classmate's general automata-editor report influenced presentation expectations only; its prose, benchmarks, AI assistant, and collaboration product direction were not adopted.
-
-The application never executes commands or fetches entered URLs. It recognises an intentionally restricted language and selected patterns. Acceptance by a recogniser is not a conclusion about malicious intent or safety. Turing machines, shared editing, arbitrary grammar editing, real-shell semantics, threat intelligence, and machine-learning classification are outside this version.
-
-## 2. System architecture
-
-The React/TypeScript interface runs entirely in the browser. Pure engine modules expose explicit serialisable structures for automata, tokens, diagnostics, parsing steps and comparison results. A disposable Web Worker performs analysis, compilation or comparison. Cancelling terminates the worker; a 12-second budget also terminates long computations. The interface retains previous results only with a visible stale-result label when inputs change.
-
-```text
-Input + selected signatures
-  ├─ Regex parser → Thompson ε-NFA → subsets → DFA → minimisation
-  ├─ Lexer → tokens + offsets → FIRST/FOLLOW → LL(1) parser + tree
-  └─ Mutation → rerun both observations → before/after comparison
-
-Rule A + Rule B → product DFA BFS → equivalence OR shortest witness
-                                       └─ synchronised replay
-```
+**Keywords:** finite automata, regular expressions, ε-closure, subset construction, DFA minimisation, context-free grammar, predictive parsing, pushdown automata, shortest counterexample.
 
 <!-- pagebreak -->
 
-## 3. Regular-language engine
-
-A DFA is M = (Q, Σ, δ, q0, F), with a finite state set Q, alphabet Σ, start q0, accepting set F, and deterministic transition function δ. An ε-NFA permits multiple destinations and transitions that consume no input. These models recognise the regular languages [1, 3].
-
-### Regex syntax and Thompson construction
-
-A recursive-descent parser implements alternation, concatenation and repetition precedence. Supported forms are ASCII literals, escapes, character classes/ranges, grouping, `*`, `+`, `?`, and explicit ε. Unsupported constructs are diagnosed with a source offset. Empty groups and alternatives must use ε explicitly. The engine does not delegate user regex matching to JavaScript's native RegExp.
-
-Thompson construction creates fragments with entry and exit states. Concatenation connects fragments by ε. Alternation creates branching ε-edges. Repetition adds skip and/or loop edges. The engine stores every state and edge, allowing NFA simulation and visual inspection. This implements the established construction rather than a new matching algorithm [1, 4].
-
-### Closure, determinisation and minimisation
-
-For a set S, ε-closure(S) includes S and all states reachable through zero or more ε-edges. Determinisation starts with ε-closure({q0}); for each symbol it computes move followed by closure. Only reachable subsets are generated. The empty subset, when reached, is a rejecting sink. Each construction step records its source, symbol, move set, closure, and destination.
-
-Minimisation first removes unreachable states, separates accepting and non-accepting blocks, and refines partitions using a Hopcroft-style worklist [2]. The result preserves the recognised language. The implementation uses straightforward set scans; this report does not claim the optimised O(|Σ| n log n) bound for its data structures.
-
-### Matching semantics
-
-Whole-string recognition consumes the complete input. Substring comparison wraps each rule with prefix and suffix loops over the same 98-symbol ASCII domain. Signature analysis separately reports non-overlapping leftmost-longest matches in raw text, using half-open intervals [start, end). A zero-length match advances the search position to guarantee termination.
-
-| Demo rule | ε-NFA states | DFA states | Minimal DFA states |
-| --- | --- | --- | --- |
-| `--[a-z]+` | {{LEFT_NFA}} | {{LEFT_DFA}} | {{LEFT_MIN}} |
-| `--[a-z][a-z]+` | {{RIGHT_NFA}} | {{RIGHT_DFA}} | {{RIGHT_MIN}} |
-
-These values are read from the production worker output. Neither example reduces during minimisation; state reduction is demonstrated and verified using other machines, including a redundant DFA test.
+{{CONTENTS}}
 
 <!-- pagebreak -->
 
-## 4. Exact comparison and shortest witnesses
+## 1 Introduction
 
-To compare two DFAs, AUTOSEC explores their product from (q0A, q0B). The comparison alphabet is the union of the two alphabets. Missing transitions enter an implicit rejecting sink. A product state distinguishes the languages exactly when one component is accepting and the other is not: it belongs to the symmetric difference [3].
+Finding a pattern in text and recognising the structure of an entire input are different tasks. Consider `inspect --tag sample` and `inspect --tag`. Both contain a long flag, but the second is incomplete when a flag must have a value. A single combined label would conceal which property actually failed. AUTOSEC makes that distinction the starting point of an interactive Models of Computation project.
 
-Breadth-first search visits paths in increasing input length. The first acceptance disagreement therefore yields a shortest distinguishing string. Parent pointers and input symbols reconstruct that string. Symbols are ordered by ASCII code for deterministic tie-breaking. If every reachable pair agrees, the languages are equivalent. Cancellation, state limits, or timeout return incomplete and do not establish equivalence.
+The project develops the original multi-level AUTOSEC proposal into an explainable experiment. Users inspect signature matches, token boundaries, machine transitions, parser decisions and stack contents. They can also compare two rules and obtain a smallest example of changed behaviour. This connects the theory of recognised languages to an observable result rather than only displaying a final accept/reject label.
 
-### Measured signature comparison
+The objectives are to implement the standard constructions correctly, expose their intermediate representations, distinguish local patterns from recursive syntax, and preserve enough evidence to reproduce an experiment. The application treats all submitted commands and URLs as text. It does not execute a shell, inspect the operating system, fetch an entered URL, or infer malicious intent from syntax.
 
-Rule A: `--[a-z]+` accepts at least one lowercase letter after two hyphens. Rule B: `--[a-z][a-z]+` requires at least two. The production worker returned witness `{{WITNESS}}`, with {{PAIRS}} product-state pairs examined. Rule A accepts it and Rule B rejects it.
+## 2 Theoretical background
 
-{{WITNESS_TABLE}}
+### 2.1 Formal definitions
 
-{{WITNESS_FIGURE}}
+A deterministic finite automaton is a five-tuple [3]:
 
-Figure 1. Actual worker trace along the shortest witness. Each circle is a reported minimal-DFA state; a double circle marks an accepting state. This is a generated algorithm diagram, not an application screenshot. Non-witness transitions are omitted from this path figure; complete transitions remain in the evidence JSON and app tables.
+{{DFA_EQUATION}}
 
-The comparison `a+` versus `aa*` returned equivalent. The engine tests also verify `a*` versus `a+`, whose shortest witness is ε. Testing all shorter strings for selected pairs independently checks the minimal-length claim.
+Here Q is a finite set of states; Σ is the input alphabet; δ maps each state and input symbol to one destination; q₀ is the start state; and F is the set of accepting states. A string is accepted when consuming it from q₀ leaves the machine in F.
+
+An ε-NFA permits a set of possible destinations and transitions that consume no input. Its active configuration is therefore a set of states. NFAs and DFAs recognise the same class of regular languages. A context-free grammar specifies productions over terminals and nonterminals, while a pushdown automaton adds a stack for properties such as arbitrarily deep nesting. These distinctions determine the role of each model in AUTOSEC.
 
 <!-- pagebreak -->
 
-## 5. Lexer, grammar, and predictive parser
+### 2.2 Regular-language constructions
 
-The command language is deliberately small and is not a shell. Tokens retain exact text and zero-based source offsets. WORD matches an ASCII letter, digit, underscore, dot, slash, or colon followed by these characters or hyphens. FLAG matches `--[a-z]+`. QUOTED allows spaces, escaped quotes and escaped backslashes. Words, flags and quoted values require whitespace separation. Parentheses and semicolons delimit themselves.
+The regex parser uses the precedence order alternation, concatenation and repetition, with parentheses overriding that order. The supported subset contains ASCII literals, escaped literals, classes and ranges, grouping, alternation, `*`, `+`, `?`, and explicit ε. Unsupported constructs such as backreferences, lookaround and counted repetition produce a diagnostic instead of silently changing the requested language.
+
+Thompson construction represents each parsed fragment by an entry and exit state [1, 4]. A literal adds a labelled edge. Concatenation connects fragment boundaries by ε. Alternation branches through ε-edges. Repetition adds the appropriate skip and loop transitions. The stored NFA is the machine used for simulation and visualisation.
+
+For a state set S, ε-closure(S) includes S and every state reachable from it through zero or more ε-transitions. Subset construction starts from ε-closure({q₀}). For each symbol, it calculates the move set followed by ε-closure, creating only reachable DFA subsets. An empty subset, when reached, acts as a rejecting sink. The construction trace records these intermediate sets explicitly.
+
+Minimisation first removes unreachable states and then refines accepting and non-accepting partitions using a Hopcroft-style worklist [2]. States that remain indistinguishable merge. AUTOSEC records the refinement partitions and checks language preservation in its tests. Its straightforward set-scanning implementation is not claimed to achieve the optimised textbook asymptotic bound.
+
+{{AUTOMATA_TABLE}}
+
+The measured flag examples above are already minimal after determinisation. Their unchanged counts are legitimate results. A separate test starts with a redundant four-state DFA and verifies a two-state minimal result after removing an unreachable state and merging equivalent states.
+
+### 2.3 Recognition semantics
+
+Whole-string mode requires the complete input to belong to a rule's language. Substring comparison instead allows the rule to occur anywhere, using prefix and suffix loops over the same supported ASCII domain for both machines. Signature analysis reports non-overlapping, leftmost-longest raw-text matches with half-open offsets [start, end). Nullable matches advance the search position so that matching always terminates.
+
+<!-- pagebreak -->
+
+## 3 System architecture
+
+AUTOSEC separates the visual interface, pure algorithmic engine and computation transport. React manages the four workspace views: Analyse, Automata Lab, Grammar & Stack, and Evidence. TypeScript engine modules contain the mathematical data and algorithms without depending on the document interface or network access. The same machine structures support simulation, transition tables and graph rendering.
+
+{{ARCHITECTURE_FIGURE}}
+
+### 3.1 Computation and explanation
+
+The regular layer receives a pattern and returns its NFA, DFA, minimal DFA, closures and construction trace. The structural layer receives tokens and returns calculated grammar sets, a parsing table, parser actions, diagnostics and derivation nodes. The comparison module returns either equivalence or a distinguishing string with the two execution traces.
+
+Analysis, compilation and comparison run in disposable Web Workers. Cancellation terminates the worker, and a 12-second budget bounds each operation. A stopped computation is labelled incomplete. If the user edits an input after obtaining a result, the interface identifies the previous result as stale rather than presenting it as the new answer.
+
+### 3.2 Evidence and local operation
+
+No application backend, database, account or paid API is required. Cases are stored in the browser and can be exported using a versioned JSON format. Imported inputs and patterns are validated, and saved verdicts are recomputed. Automata export as SVG and analysis pages have a print layout. The recorded public deployment uses GitHub Pages; the same source can run locally through Vite.
+
+The URL panel is a supplementary component illustration. It applies a restricted HTTP(S) check and then the browser URL parser to display scheme, host, path, query and fragment. It is separate from the command grammar and does not claim complete RFC 3986 validation [5].
+
+<!-- pagebreak -->
+
+## 4 Structural analysis
+
+### 4.1 Tokenisation and command grammar
+
+The lexer recognises WORD, FLAG, QUOTED, semicolon and parenthesis tokens. WORD begins with an ASCII letter, digit, underscore, dot, slash or colon; later characters may also include hyphens. FLAG is `--[a-z]+`. Double-quoted values support escaped quotes and backslashes. Whitespace separates adjacent values, while parentheses and semicolons delimit themselves. Every token retains its exact text and zero-based source interval.
 
 ```text
 Script    → Statement Rest
@@ -119,115 +95,115 @@ Arg       → FLAG Value | Value
 Value     → WORD | QUOTED
 ```
 
-The grammar is fixed, while its FIRST/FOLLOW sets and parsing table are computed from productions. FIRST sets grow to a fixed point; FOLLOW propagates FIRST of suffixes and the enclosing FOLLOW when a suffix is nullable. Table entries use FIRST, with FOLLOW selecting nullable productions. A conflict check rejects ambiguous table cells. The supplied grammar produces no LL(1) conflicts.
+A script contains one or more statements separated by semicolons. A statement is either a command with arguments or a parenthesised script. Every flag requires a value. Empty groups and trailing separators are rejected. This is an intentionally restricted language rather than a complete operating-system shell.
+
+### 4.2 FIRST, FOLLOW and the LL(1) table
+
+FIRST sets are calculated to a fixed point from the productions. FOLLOW propagates FIRST of each suffix, and the enclosing FOLLOW when that suffix is nullable. The parser table uses FIRST for ordinary choices and FOLLOW for ε-productions. Duplicate assignments to a table cell are treated as conflicts. The implemented grammar produces no LL(1) conflicts.
 
 {{SETS_TABLE}}
 
-The table-driven parser starts with Script above $. It either expands a nonterminal using the lookahead table or matches a terminal. Each action records the current stack (top at left), remaining input, action and offset. It simultaneously constructs a derivation tree. A missing table entry or mismatching terminal returns the first diagnostic and expected alternatives.
+For example, lookahead FLAG selects `Arg → FLAG Value`, while lookahead QUOTED selects a value. A closing parenthesis or end marker can select a nullable tail where permitted by FOLLOW. These are calculated decisions rather than hand-entered parser responses.
 
-### Real nested-script result
+<!-- pagebreak -->
+
+### 4.3 Predictive parsing and diagnostics
+
+The parser begins with Script above the end marker $. Stack top is shown at the left. A nonterminal expands using the current lookahead; a terminal must match the next token. Each action records the stack, remaining tokens, source offset and selected production or match. Production expansions also create the derivation tree.
+
+The recorded nested example is:
 
 ```text
-inspect --tag "sample data"; (check file; scan --mode quick)
+inspect --tag "sample data";
+(check file; scan --mode quick)
 ```
 
-The production worker produced {{TOKENS}} tokens and {{PARSE_ACTIONS}} parsing actions, consuming the full input and accepting it. The long-flag signature matched twice; the separator signature matched twice; the traversal signature did not match. A lexical error prevents grammar parsing rather than attempting to reinterpret a partial token sequence as valid input.
+The line break above is for readability. The actual input has {{TOKENS}} tokens and is accepted after {{PARSE_ACTIONS}} parser actions. Table 3 summarises the initial stack configurations and parsing decisions; the remaining input is shortened for readability.
+
+{{PARSE_TABLE}}
+
+If a lexical error occurs, parsing is not attempted on the partial token stream. Otherwise, a missing table entry or mismatching terminal identifies the first failure and expected alternatives. For `inspect --tag`, the parser reaches end-of-input while expecting Value, so the flag signature can match even though the structure is rejected.
+
+### 4.4 Pushdown-automaton demonstration
+
+The delimiter PDA pushes `(`, `[` or `{` and pops only its matching closer. It accepts at end-of-input when no unmatched opener remains. The sequence `([{}])()` is balanced; `([)]` fails because the first closer conflicts with the stack top. Matching counts alone are insufficient. Arbitrarily nested groups supply the meaningful context-free property; the simpler flat command subset may be regular. The application's finite resource limits do not change this theoretical distinction.
 
 <!-- pagebreak -->
 
-## 6. PDA, mutation, and evidence features
+## 5 Counterexample-driven comparison
 
-### Stack-based recognition
+### 5.1 Product search and equivalence
 
-The dedicated PDA demonstration recognises correctly nested parentheses, square brackets and braces, ignoring whitespace. It uses state qRead, an explicit stack bottom marker, a push on each opener, and a pop only when the closer matches the stack top. End-of-input with only the bottom marker remaining enters qAccept. An unexpected closer, mismatched pair, unsupported character or unclosed opener rejects.
+AUTOSEC compares two DFAs over the union of their alphabets. A missing transition enters an implicit rejecting sink. Starting from the pair of initial states, it explores the product graph. A pair distinguishes the languages when exactly one component accepts, corresponding to the symmetric difference of the languages [3].
 
-For `([{}])()`, the stack grows and shrinks consistently and ends empty. For `([)]`, the closing parenthesis conflicts with the top `[`, so the machine rejects even though opening and closing counts balance. The app records each transition and permits stepwise replay.
+Breadth-first search visits input lengths in increasing order. The first disagreement therefore gives a shortest witness, reconstructed through parent pointers. ASCII symbol order gives deterministic tie-breaking. Exhausting all reachable pairs without disagreement establishes equivalence. A timeout, cancellation or exceeded limit instead yields incomplete analysis.
 
-The command grammar's nested groups provide the substantive context-free feature. The flat subset without recursive grouping can be regular. A grammar being context-free does not by itself prove its language is non-regular. The formal language allows arbitrary depth, while the application has finite input and computation limits.
+### 5.2 Recorded shortest witness
 
-### Mutation experiments
+Rule A, `--[a-z]+`, permits one or more letters after two hyphens. Rule B, `--[a-z][a-z]+`, requires at least two. The production worker returned `{{WITNESS}}`, examining {{PAIRS}} state pairs before finding the disagreement. A accepts the witness; B rejects it.
 
-The app can remove a closing parenthesis, delete the value after a flag, or append a separator. Each edit reruns both analysis layers and shows before/after pattern, grammar and token counts. For a nested script, removing its closer may leave all signatures unchanged while causing a structural failure. Edits that lack a target explain that no change was possible.
+{{WITNESS_TABLE}}
 
-| Input | Selected pattern present? | Grammar accepted? |
-| --- | --- | --- |
-| `inspect --tag x` | Yes | Yes |
-| `inspect --tag` | Yes | No |
-| `inspect file` | No | Yes |
-| `(inspect file` | No | No |
+{{WITNESS_FIGURE}}
 
-All four combinations are verified by automated tests. Pattern observations must therefore not be collapsed into the grammar result. The quoted input `inspect "--tag"` also demonstrates raw pattern presence without a FLAG token.
-
-### Portable evidence
-
-Cases contain name, input, selected signatures, comparison rules and matching mode. Browser storage retains up to 30 named cases. JSON schema v1 adds engine version, export time and current analysis when available. Imports validate the schema and regexes, reject invalid sizes/types, and recompute rather than trusting saved verdicts. Diagrams export as SVG; a print stylesheet produces a case analysis report.
-
-The supplementary URL panel illustrates HTTP(S) components using the browser URL parser after a restricted format check. It does not implement or claim full RFC 3986 conformance [5]. It does not navigate to the supplied text.
+The figure is generated from actual worker traces, not an application screenshot; non-witness edges are omitted. Another recorded comparison establishes equivalence of `a+` and `aa*`. Tests also verify the ε witness for `a*` versus `a+`, and independently enumerate shorter strings for selected comparisons to check minimality.
 
 <!-- pagebreak -->
 
-## 7. Verification and measured results
+## 6 Implementation and results
 
-{{TEST_COUNT}} automated tests passed in two suites: 83 engine cases and seven DOM integration cases. The recognition tests enumerate all 127 strings over {a,b} through length six for eight independently specified languages, comparing ε-NFA, DFA and minimal-DFA acceptance with the expected predicate. Exact DFA-equivalence checks verify preservation after minimisation.
+### 6.1 Verification method
 
-Other tests cover ε-cycles, nullable patterns, escaped literals, dead/unreachable states, malformed regexes, ASCII/input/state limits, differing alphabets, substring semantics, shortest witnesses, parser failures, nested groups, escaped quotes, PDA mismatches, the four independent verdict combinations, mutations, and case import/export validation.
+The recorded verification run on 22 October 2026 passed {{TEST_COUNT}} tests: 83 engine cases and seven DOM integration cases. For eight independently specified languages, tests enumerate all 127 strings over {a,b} through length six. ε-NFA, DFA and minimal-DFA results are compared with the expected predicate. Exact product-DFA checks also verify language preservation after minimisation.
 
-| Check | Observed result | Interpretation |
-| --- | --- | --- |
-| Engine suite | 83 passing tests | Algorithms and integration inputs checked |
-| DOM suite | 7 passing tests | React interaction/state flows checked in jsdom |
-| Production build | TypeScript + Vite successful | Static production bundle generated |
-| Built-worker harness | Passed; {{RUNTIME_MS}} ms | Actual worker asset computed expected results under Node transport |
-| Signature comparison | `--a`; A accepts, B rejects | Expected shortest-witness outcome |
-| Equivalent rules | `a+` and `aa*` equivalent | Product-state exhaustion agrees |
-| Dependency audit | Zero known vulnerabilities at final local audit | Registry audit snapshot, not a complete security audit |
+Additional tests cover ε-cycles, escapes, invalid regexes, dead and unreachable states, resource bounds, different alphabets, substring semantics, grammar errors, nested groups, PDA order failures, mutations and case validation. DOM tests exercise interaction and state changes in jsdom, with substituted storage and worker transport.
 
-The worker harness runs the unmodified production Web Worker bundle with a Node worker_threads transport shim. It validates serialised requests/results and engine integration, but does not verify browser module-worker loading. Its elapsed time is a single local observation, not a performance benchmark or a browser latency claim.
+{{RESULTS_TABLE}}
 
-### Verification limits
+### 6.2 Production-worker and deployment evidence
 
-Local browser automation returned “Local browser use is disabled in Work settings.” Consequently, real-browser UI interaction, visual layout, narrow-screen overflow, browser storage persistence, actual download/print behaviour and UI screenshots were not verified. The DOM suite substitutes worker transport and storage and cannot establish these browser properties. No generated mock image is presented as a screenshot.
+The actual built worker asset was executed using Node worker_threads. It accepted the nested script, returned the expected shortest flag witness, and confirmed `a+`/`aa*` equivalence. The measured {{RUNTIME_MS}} ms is a single local harness observation, not a browser-performance benchmark. A clean Linux GitHub Actions workflow independently passed installation, tests, the production build and worker verification before deployment.
 
-The remaining manual checklist is supplied in the viva guide: inspect desktop and 390px layouts, complete the demo, use keyboard playback, reload saved cases, roundtrip a downloaded JSON file, export SVG, print PDF, test cancellation, and capture genuine screenshots.
-
-### Deployment record
-
-{{DEPLOYMENT_STATUS}}
+The recorded public demo is [AUTOSEC on GitHub Pages](https://radical11.github.io/autosec-witness-lab/). Anonymous HTTP checks returned 200 for its HTML, JavaScript, CSS and worker, with the published worker matching the local asset. Real-browser rendering, browser storage, downloads, print behaviour and screenshots remain unverified because local browser automation was disabled. Neither DOM tests nor Node execution are presented as browser verification.
 
 <!-- pagebreak -->
 
-## 8. Course mapping, limitations, and conclusion
+## 7 Contributions, applications and limitations
 
-| MOC topic | Implemented role |
-| --- | --- |
-| Regular expressions | Signature and comparison languages |
-| ε-NFA and ε-closure | Thompson fragments and nondeterministic simulation |
-| DFA / subset construction | Reachable closed subsets and transition traces |
-| Minimisation | Partition refinement with equivalent-state merging |
-| Closure / product constructions | Symmetric difference and exact equivalence |
-| Lexical analysis | Tokens with precise source offsets |
-| CFG / FIRST / FOLLOW / LL(1) | Nested script syntax and predictive decisions |
-| Derivations / parse trees | Recorded production expansions and matched terminals |
-| Pushdown automata | Nested-delimiter recognition and stack replay |
+### 7.1 Distinctive workflow
 
-### Practical limitations
+The contribution is the integration of shortest counterexamples, synchronised replay and input mutation with two separate recognition layers. It is not a new regex, parsing or minimisation algorithm. A learner can change a rule, obtain the smallest observable difference, and inspect the states that explain it. The structural view then shows why the same text may have a different result under a different language property.
 
-The supported domain is 98 ASCII symbols. Regex length is capped at 128, input length at 2,048, NFA states at 256, and DFA states at 512. Each worker has a 12-second budget. State explosion is possible during subset construction; product exploration can also grow with both machines. Exceeding these limits is incomplete analysis. Graph rendering stops at 80 states for readability while complete transition data remains available.
+The mutation controls remove a closing parenthesis, delete a flag value, or append a separator. Each edit reruns both layers and compares token counts and verdicts. An unavailable edit explains that no matching target was present. Table 6 gives the four independently tested combinations using the default selected signatures.
 
-No real-shell semantics, threat datasets, network monitoring, operating-system access, arbitrary grammar editor, Turing-machine simulator, collaborative editing or AI generation is included. Recognisers and parsers concern the defined languages only. Real-browser QA and genuine screenshots remain outstanding as disclosed above.
+{{VERDICT_TABLE}}
 
-### Conclusion
+### 7.2 Applications
 
-AUTOSEC implements and connects several MOC constructions in a working browser application. Its contribution is an explainable experiment: modify a rule, obtain a shortest counterexample, replay the machines, and contrast regular-pattern observations with nested syntax recognition. The test evidence supports the reported algorithmic outcomes. The project claims an educational integration of established theory, not a new computational model or a production threat detector.
+During a course review, the comparison view demonstrates product constructions and shortest paths through a concrete example. In individual study, the closures, subsets and partition traces help locate an incorrect manual step. The grammar view connects lexical categories to predictive choices, while the PDA view makes stack order visible. Exported cases preserve inputs and rules for repeating the explanation later.
 
-### References
+### 7.3 Limitations
 
-[1] K. Thompson, “Programming Techniques: Regular Expression Search Algorithm,” Communications of the ACM, vol. 11, no. 6, pp. 419–422, 1968. DOI: 10.1145/363347.363387.
+The supported domain has 98 symbols: printable ASCII plus tab, newline and carriage return. Bounds are 128 regex characters, 2,048 input characters, 256 NFA states and 512 DFA states, with 12 seconds per worker task. Diagrams above 80 states use complete transition tables instead. Large derivation trees use a paginated node table. State explosion can still make a computation incomplete. No arbitrary grammar editor, real-shell execution, threat intelligence, Turing-machine simulator, shared editing or AI-generated automata are included. Syntactic acceptance does not establish security, and genuine browser screenshots remain a presentation item requiring separate verification.
 
-[2] J. E. Hopcroft, “An n log n Algorithm for Minimizing States in a Finite Automaton,” The Theory of Machines and Computations, pp. 189–196, 1971.
+<!-- pagebreak -->
 
-[3] J. E. Hopcroft, R. Motwani and J. D. Ullman, Introduction to Automata Theory, Languages, and Computation, 3rd ed., Addison-Wesley, 2006.
+## 8 Conclusion and future work
 
-[4] R. Cox, “Regular Expression Matching Can Be Simple And Fast,” January 2007. https://swtch.com/~rsc/regexp/regexp1.html. Accessed 22 October 2026.
+AUTOSEC turns standard Models of Computation constructions into a connected experiment. Its regular layer exposes the transformation from regex to ε-NFA, DFA and minimal DFA. Its structural layer explains token order and nesting through computed grammar sets, predictive parsing and a stack demonstration. The shortest-counterexample feature joins these ideas with a precise, reproducible difference between two regular languages.
 
-[5] T. Berners-Lee, R. Fielding and L. Masinter, “Uniform Resource Identifier (URI): Generic Syntax,” RFC 3986, January 2005. https://www.rfc-editor.org/rfc/rfc3986. Accessed 22 October 2026.
+Recorded tests support the reported algorithmic outcomes while the verification boundary remains explicit. The project demonstrates educational integration and explanation rather than a new computational model or production threat detection. Future work can add verified browser screenshots, richer large-machine navigation and additional curated language exercises. A general grammar editor would require explicit handling of conflicts and transformations beyond the current fixed LL(1) grammar.
+
+The source repository, local build, versioned cases and raw test evidence accompany the report. They allow a reviewer to relate a displayed answer to its input, algorithm and recorded result.
+
+## References
+
+[1] K. Thompson, “Programming Techniques: Regular Expression Search Algorithm,” *Communications of the ACM*, vol. 11, no. 6, pp. 419-422, 1968. DOI: 10.1145/363347.363387.
+
+[2] J. E. Hopcroft, “An n log n Algorithm for Minimizing States in a Finite Automaton,” in *The Theory of Machines and Computations*, pp. 189-196, 1971.
+
+[3] J. E. Hopcroft, R. Motwani and J. D. Ullman, *Introduction to Automata Theory, Languages, and Computation*, 3rd ed. Addison-Wesley, 2006.
+
+[4] R. Cox, “Regular Expression Matching Can Be Simple And Fast,” January 2007. [Available online](https://swtch.com/~rsc/regexp/regexp1.html). Accessed 22 October 2026.
+
+[5] T. Berners-Lee, R. Fielding and L. Masinter, “Uniform Resource Identifier (URI): Generic Syntax,” RFC 3986, January 2005. [Available online](https://www.rfc-editor.org/rfc/rfc3986). Accessed 22 October 2026.
