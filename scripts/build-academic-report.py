@@ -136,7 +136,7 @@ tables={
  'GRAMMAR_TABLE':('TABLE V. FIRST/FOLLOW SETS COMPUTED FROM THE FIXED GRAMMAR',['Nonterminal','FIRST','FOLLOW'],[[n,'{'+', '.join(data['cases'][0]['grammar']['first'][n])+'}','{'+', '.join(data['cases'][0]['grammar']['follow'][n])+'}'] for n in data['cases'][0]['grammar']['first']],[75,195,W-270]),
  'PARSER_TABLE':('TABLE VI. FIRST FOUR ACTIONS FOR THE VALID COMMAND',['Step','Stack top first','Applied action'],[[str(i+1),' '.join(s['stack']),s['action']] for i,s in enumerate(data['cases'][0]['parse']['trace'][:4])],[35,180,W-215]),
  'WITNESS_TABLE':('TABLE VII. COMPUTED ACCEPTANCE ALONG THE SHORTEST WITNESS',['Prefix','A state / acceptance','B state / acceptance'],[[data['comparison']['comparison']['witness'][:i] if i else 'ε',f'q{a["active"][0]} / '+('accept' if a['accepting'] else 'reject'),f'q{b["active"][0]} / '+('accept' if b['accepting'] else 'reject')] for i,(a,b) in enumerate(zip(data['comparison']['comparison']['leftTrace'],data['comparison']['comparison']['rightTrace']))],[90,(W-90)/2,(W-90)/2]),
- 'RESULTS_TABLE':('TABLE VIII. OBSERVED VERIFICATION RESULTS, 24 OCTOBER 2026',['Check','Observed result','Interpretation'],[
+ 'RESULTS_TABLE':('TABLE VIII. OBSERVED VERIFICATION RESULTS',['Check','Observed result','Interpretation'],[
  ['Engine / DOM suite','83 / 7 passing','90 test cases; not 90 user participants.'],['Production build','Passed','TypeScript and Vite build successful.'],['ab* construction','6 → 4 → 3 states','NFA, DFA and minimal DFA.'],['Default comparison','--a; 5 processed pairs','A accepts and B rejects.'],['a+ versus aa*','Equivalent','Reachable product exhausted.'],['a* versus a+','Empty witness ε','Initial acceptance disagrees.']],[112,129,W-241]),
  'CASES_TABLE':('TABLE IX. TWO INDEPENDENT OUTCOMES ON THE SAME INPUT',['Input','Flag found?','Syntax accepted?'],[[c['input'],'Yes' if c['patternMatched'] else 'No','Yes' if c['structureAccepted'] else 'No'] for c in [data['cases'][0],data['cases'][1],data['cases'][3],data['cases'][4],data['cases'][5]]],[268,90,W-358])
 }
@@ -159,7 +159,6 @@ class Cover(Flowable):
         line('School of Computer Science Engineering and Information Systems',198,11)
         line('Vellore Institute of Technology, Vellore',145,12)
         line('Academic Year 2026–2027',122,12)
-        line('24 October 2026',51,12)
 
 entries=[('I. Introduction and Related Work',3),('II. Formal Definitions and Recognition Semantics',4),('III. Methodology and System Architecture',5),('IV. Regular-Language Construction',6),('V. Lexical Analysis and Predictive Parsing',7),('VI. Shortest-Counterexample Method',8),('VII. Actual Application Screenshots',9),('VIII. Evaluation and Observed Results',10),('IX. Discussion, Limitations and Conclusion',11),('References',12)]
 class Contents(Flowable):
@@ -186,7 +185,6 @@ def reference(r):
     if r.get('doi'):line+=' doi: '+r['doi']+'.'
     # A compact clickable title avoids unbreakable raw URLs in the PDF.
     link=' <link href="'+escape(r['url'])+'" color="#24496b">[Online]</link>'
-    if r['id']==12:link+=' Accessed: Oct. 24, 2026.'
     return inline(line).replace('&lt;i&gt;','<i>').replace('&lt;/i&gt;','</i>')+link
 
 expanded=source
@@ -195,7 +193,7 @@ while i<len(lines):
     s=lines[i].strip();i+=1
     if not s:continue
     if s=='<!-- pagebreak -->':story.append(PageBreak());continue
-    if s=='{{COVER}}':story.append(Cover());expanded=expanded.replace(s,'# AUTOSEC\n\nCounterexample-Driven Automata and Syntax Demo\n\nBhoumik Singh Rajput (25BYB0120); Vihaan Jinesh Jain (25BYB0130)\n\nFaculty: Dr. Dharmendra Singh Rajput. VIT Vellore. BACSE201, 2026–27.\n\n24 October 2026');continue
+    if s=='{{COVER}}':story.append(Cover());expanded=expanded.replace(s,'# AUTOSEC\n\nCounterexample-Driven Automata and Syntax Demo\n\nBhoumik Singh Rajput (25BYB0120); Vihaan Jinesh Jain (25BYB0130)\n\nFaculty: Dr. Dharmendra Singh Rajput. VIT Vellore. BACSE201, 2026–27.');continue
     if s=='{{CONTENTS}}':story.append(Contents());expanded=expanded.replace(s,'\n'.join(f'- {n}: p. {p}' for n,p in entries));continue
     if s in ['{{DEFINITION_EQUATIONS}}','{{PRODUCT_EQUATION}}']:
         eqs=['L(M) = {w ∈ Σ* | δ*(q₀, w) ∈ F}                 (1)','ε-closure(S) = {q | ∃s ∈ S, s →ε* q}           (2)'] if s=='{{DEFINITION_EQUATIONS}}' else ['L(A) △ L(B) = (L(A) − L(B)) ∪ (L(B) − L(A))     (3)','|w*| = min {|w| : w ∈ L(A) △ L(B)}            (4)']
@@ -232,7 +230,7 @@ while i<len(lines):
 def footer(c,doc):
     c.bookmarkPage(f'page-{doc.page}')
     if doc.page>1:
-        c.saveState();c.setFont('Paper',9);c.setFillColor(colors.HexColor('#59616b'));c.drawString(56,27,'AUTOSEC | Models of Computation | 24 October 2026');c.drawRightString(A4[0]-56,27,str(doc.page));c.restoreState()
+        c.saveState();c.setFont('Paper',9);c.setFillColor(colors.HexColor('#59616b'));c.drawString(56,27,'AUTOSEC | Models of Computation');c.drawRightString(A4[0]-56,27,str(doc.page));c.restoreState()
 target=PDF/'AUTOSEC_Final_Report.pdf'
 doc=SimpleDocTemplate(str(target),pagesize=A4,leftMargin=56,rightMargin=56,topMargin=46,bottomMargin=44,title='AUTOSEC: Counterexample-Driven Automata and Syntax Demo',author='Bhoumik Singh Rajput; Vihaan Jinesh Jain')
 doc.build(story,onFirstPage=footer,onLaterPages=footer)
