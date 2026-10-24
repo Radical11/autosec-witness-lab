@@ -12,7 +12,7 @@ Faculty: Dr. Dharmendra Singh Rajput. VIT Vellore. BACSE201, 2026–27.
 
 ## Abstract
 
-Pattern occurrence and syntactic membership describe different properties of an input. Conflating them can obscure why a command-like string is accepted or rejected. AUTOSEC is a browser-local demonstrator that separates these observations and explains differences between two regular rules using a shortest counterexample. A TypeScript engine parses supported regular expressions, constructs Thompson ε-nondeterministic finite automata, computes ε-closures, determinises the machines, and minimises their deterministic forms. A second pipeline tokenises a restricted nested command language and performs predictive parsing using calculated FIRST/FOLLOW sets and an LL(1) table. Product-automaton breadth-first search returns either language equivalence or a shortest string accepted by exactly one rule. The interface exposes only two tasks, Check text and Compare rules; explanatory traces remain optional. Verification on 24 October 2026 recorded 90 passing automated tests and a successful production build. Eight independently specified languages were checked on all 127 binary strings of length at most six. Actual application captures document valid syntax, a missing flag value, and the witness `--a`. The contribution is a focused integration of established algorithms and contrasting language properties, rather than a new automata algorithm, a full shell, or a threat detector. No learning-effectiveness improvement is claimed without a user study.
+Pattern occurrence and syntactic validity are distinct properties of an input. AUTOSEC is a browser-local teaching application that evaluates these properties independently and explains differences between regular rules through shortest counterexamples. A TypeScript engine parses supported regular expressions, constructs Thompson ε-nondeterministic finite automata, computes ε-closures, performs subset construction, and minimises the resulting deterministic machines. A second pipeline tokenises a restricted nested command language and performs predictive parsing using computed FIRST/FOLLOW sets and an LL(1) table. Breadth-first search over a product automaton returns either language equivalence or a shortest string accepted by exactly one rule. The interface presents two tasks, Check text and Compare rules, with optional execution traces. Verification on 24 October 2026 recorded 90 passing automated tests and a successful production build. Eight independently specified languages were evaluated on all 127 binary strings of length at most six. Genuine application screenshots illustrate valid nested syntax, a missing flag value, and the distinguishing string `--a`. The contribution is the integration of independent pattern and syntax verdicts with a reproducible counterexample workflow. The evaluation establishes observed implementation behaviour; educational effectiveness remains a question for a future user study.
 
 **Index Terms:** formal languages, finite automata, regular expressions, predictive parsing, context-free grammar, shortest counterexample, educational software.
 
@@ -31,7 +31,7 @@ Pattern occurrence and syntactic membership describe different properties of an 
 
 ### Project scope
 
-The implementation demonstrates regular-language recognition, nested syntax and a constructive difference between two languages. All inputs are treated as text. The small interface is intentional: definitions, diagrams and methodological detail are supplied in this report without adding dashboard controls to the application. A recent textbook provides the course context for automata and parsing [1].
+The application connects three course topics through one command-like example: regular-language recognition, nested syntax, and language comparison. Users inspect a result, make a small change, and examine why acceptance changes. Inputs are analysed as text. The interface concentrates on these tasks, while this report supplies the definitions, diagrams and methodology. Reference [1] provides the formal-language and automata background.
 
 <!-- pagebreak -->
 
@@ -39,9 +39,9 @@ The implementation demonstrates regular-language recognition, nested syntax and 
 
 ### A. Problem statement
 
-The strings `inspect --tag sample` and `inspect --tag` both contain a flag-shaped substring. Only the first provides the value required by the project grammar. Similarly, balanced command groups require an account of nested structure rather than a single local flag match. AUTOSEC therefore reports pattern occurrence and grammatical acceptance independently, then offers a second experiment: identify the smallest observable disagreement after changing a regular rule.
+The strings `inspect --tag sample` and `inspect --tag` both contain a flag-shaped substring. Only the first supplies the value required by the project grammar. This example motivates two separate questions: does a pattern occur, and is the complete input syntactically valid? Nested command groups introduce a further requirement: the parser must retain the expected closing delimiters. AUTOSEC makes these decisions visible, then allows users to compare two regular rules through a shortest distinguishing input.
 
-Recent educational work explains regex-to-automaton transformations [2], nondeterministic rejection [3], and machine/stack behaviour [4]. Recipe-based diagnostics support regex development [5]. These publications motivate explicit explanations, but their reported findings are not evidence that AUTOSEC improves learning. Table I compares documented emphases rather than asserting that a feature is absent from every version of another tool.
+Recent educational work explains regex-to-automaton transformations [2], nondeterministic rejection [3], and machine/stack behaviour [4]. Recipe-based diagnostics support regex development [5]. These studies motivate explicit intermediate representations and concise explanations. Table I compares their documented emphasis with AUTOSEC's design. It is a qualitative comparison of the cited work, rather than a benchmark of the systems.
 
 TABLE I. DOCUMENTED EMPHASIS AND AUTOSEC DESIGN POSITION
 
@@ -54,9 +54,9 @@ TABLE I. DOCUMENTED EMPHASIS AND AUTOSEC DESIGN POSITION
 
 ### B. Distinction and objectives
 
-The distinguishing design is the combination of **two independent verdicts on the same command** and **a shortest witness between two explicit rules**, presented in a two-task interface. The automata library already implements major transformations and language operations [6]; AALpy already uses counterexamples in model learning [7]. Consequently, neither automata conversion nor counterexample generation is claimed as a new invention. AUTOSEC connects these ideas to one fixed nested command example with minimal setup.
+AUTOSEC combines **two independent verdicts on the same command** with **a shortest witness between two explicit rules** in a two-task interface. Its distinction is this focused teaching workflow: inspect a command, identify a syntax failure, change a rule, and explain the resulting disagreement. The automata library provides established transformations and language operations [6]; AALpy uses counterexamples in model learning [7]. AUTOSEC applies established algorithms to a fixed nested command language, with its contribution located in their integration and presentation.
 
-The objectives are to compute genuine results, preserve source offsets, explain the first syntax failure, and make a rule disagreement reproducible. The comparison is qualitative and source-based. No benchmark establishes superior accuracy, usability or speed over the cited systems.
+The implementation objectives are to compute verdicts from explicit machines, preserve token offsets, identify the first syntax failure, and reproduce each rule disagreement with synchronised traces. Evaluation checks these behaviours against independent predicates and recorded examples. Comparative accuracy, usability and speed require a separate study.
 
 <!-- pagebreak -->
 
@@ -64,9 +64,9 @@ The objectives are to compute genuine results, preserve source offsets, explain 
 
 ### A. Symbols, languages and finite-state machines
 
-An **alphabet** Σ is a finite set of symbols. A **string** w is a finite sequence over Σ; ε denotes the empty string and |w| its length. A **language** is a set of strings, L ⊆ Σ*. A regular expression denotes a regular language through literals, concatenation, union and repetition. In the supported syntax, `r+` denotes one or more repetitions and `r?` denotes zero or one. These operators do not execute input.
+An **alphabet** Σ is a finite set of symbols. A **string** w is a finite sequence over Σ; ε denotes the empty string and |w| its length. A **language** is a set of strings, L ⊆ Σ*. A regular expression denotes a language through literals, concatenation, union and repetition. In the supported syntax, `r*` denotes zero or more repetitions of r, `r+` denotes one or more, and `r?` denotes zero or one.
 
-A **DFA** is M = (Q, Σ, δ, q₀, F), where Q is a finite state set, δ is a deterministic transition function, q₀ is the initial state, and F is the accepting set. Its extended transition δ* consumes a string. An **ε-NFA** permits several possible successor states and ε-transitions that consume no character. Its active configuration is a set of states. **ε-closure(S)** includes S and all states reachable from S by zero or more ε-transitions.
+A **DFA** is M = (Q, Σ, δ, q₀, F), where Q is a finite state set, δ: Q × Σ → Q is the transition function, q₀ ∈ Q is the initial state, and F ⊆ Q is the accepting set. Its extended transition δ* consumes a string. An **ε-NFA** permits multiple successor states and transitions that consume no character. Its active configuration is a set of states. **ε-closure(S)** includes S and every state reachable from S using only ε-transitions.
 
 L(M) = {w ∈ Σ* | δ*(q₀, w) ∈ F}                 (1)
 
@@ -74,7 +74,7 @@ L(M) = {w ∈ Σ* | δ*(q₀, w) ∈ F}                 (1)
 
 ### B. Syntax and distinguishing inputs
 
-A **CFG** is G = (V, T, P, S): nonterminals V, terminals T, productions P, and start symbol S. A **token** records a lexical category, original text and interval [start, end). An **LL(1) parser** chooses a production using its stack top and one lookahead token. A **PDA** augments finite control with a stack; this explains the memory required by arbitrarily nested groups. The implemented predictive parser is the demonstrated stack-based recogniser, not a general user-editable PDA simulator.
+A **CFG** is G = (V, T, P, S), with nonterminals V, terminals T, productions P, and start symbol S. A **token** records a lexical category, source text and interval [start, end). An **LL(1) parser** selects a production using its stack top and one lookahead token. A **PDA** adds a stack to finite control. AUTOSEC demonstrates this memory through its predictive parser: pending grammar symbols remain on the stack until matched or expanded.
 
 TABLE II. NOTATION USED THROUGHOUT THE REPORT
 
@@ -95,13 +95,13 @@ Pattern search asks whether a substring belongs to L(r). Syntax asks whether the
 
 ### A. Design and verification procedure
 
-The project follows a construction-and-verification methodology: define a restricted language; implement explicit machine representations; integrate independent analysis paths; verify transformations against independent predicates; and inspect the running interface. The work is a software artefact evaluation, not an experiment measuring student learning. Programming-oriented automata activities provide related educational context [8], but no participant outcomes are attributed to this project.
+The methodology has four stages: specify the language and recognition semantics; implement explicit automata and parser representations; integrate the two analysis paths; and verify the resulting behaviour. Verification combines independent language predicates, exact product checks, malformed-input cases, and inspection of the running interface. The unit of evaluation is a reproducible input or rule pair. Programming-oriented automata activities provide related educational context [8]; the present evaluation concerns the software artefact.
 
 ![Fig. 1. Independent regular and structural pipelines inside a local worker.](../figures/01-architecture.svg)
 
 ### B. Computation protocol
 
-React holds input and result state. Submitting a form creates a disposable module Web Worker and sends `{id, task, data}`. The dispatcher calls `analyse()` or compiles both comparison rules before `compareDfa()`. The worker returns serialisable machine, token, trace and diagnostic data. The main thread renders verdicts; it does not manufacture an answer from the selected example name. Editing clears the previous result, and switching views disposes of pending computation.
+React manages input and result state; Vite builds the TypeScript application. Submitting a form creates a disposable module Web Worker and sends `{id, task, data}`. The dispatcher calls `analyse()` or compiles both rules before invoking `compareDfa()`. The worker returns serialisable machines, tokens, traces and diagnostics for rendering. Editing clears the previous result, and switching views disposes of pending computation. This separation keeps the algorithm engine independent of the interface.
 
 TABLE III. METHODOLOGY AND CORRESPONDING ARTEFACT
 
@@ -128,7 +128,7 @@ The engine admits 98 ASCII symbols, at most 128 regex characters, 2,048 input ch
 
 ### B. Worked construction for ab*
 
-The expression `ab*` denotes an `a` followed by zero or more `b` symbols. Figure 2 is drawn from stored engine edges, not a hand-selected substitute machine. After reading `a`, ε-closure reaches {1,2,3,4}; this set contains accepting NFA state 3. Subset construction records each reachable closed set as one DFA state, including the empty rejecting subset when reachable.
+The expression `ab*` denotes an `a` followed by zero or more `b` symbols. Figure 2 uses the state IDs and edges recorded by the engine. After reading `a`, ε-closure reaches {1,2,3,4}, including accepting NFA state 3; therefore `a` is accepted. Subset construction records each reachable closed set as a DFA state. The empty subset represents a rejecting sink when reachable, as shown in Table IV.
 
 ![Fig. 2. Actual Thompson ε-NFA for ab*. State IDs and edges follow the worker fixture.](../figures/03-ab-star-nfa.svg)
 
@@ -190,7 +190,7 @@ TABLE VI. FIRST FOUR ACTIONS FOR THE VALID COMMAND
 | 3 | WORD Args Rest $ | Match WORD: "inspect" |
 | 4 | Args Rest $ | Args → Arg Args |
 
-For `inspect --tag`, Value remains pending at end-of-input (offset 13); the pattern still matches. The missing parenthesis fails at offset 32. Engine diagnostics retain these zero-based offsets. POSIX lexing [10] and verified lexer work [11] address stronger proof obligations than this tested implementation; no mechanised verification is claimed.
+For `inspect --tag`, Value remains pending at end-of-input (offset 13), although the pattern still matches. Removing the final `)` from the valid example leaves a closing delimiter pending at offset 32. These zero-based offsets identify the first failure in each input. POSIX lexing [10] and verified lexer work [11] address stronger proof obligations; the present implementation is tested rather than mechanically verified.
 
 <!-- pagebreak -->
 
@@ -229,19 +229,19 @@ TABLE VII. COMPUTED ACCEPTANCE ALONG THE SHORTEST WITNESS
 | -- | q3 / reject | q3 / reject |
 | --a | q4 / accept | q4 / reject |
 
-The default A = `--[a-z]+` permits one letter; B = `--[a-z][a-z]+` requires two. The observed witness is `--a`, found after **5 processed pairs**. Shorter strings satisfy neither rule. Equal numeric labels in separate machines do not imply equal acceptance. The product search is O(kmn) time and O(mn) storage for m and n completed DFA states and alphabet size k; this bound excludes regex compilation. AALpy's learning/oracle workflow [7] is a different task from this exhaustive comparison of two explicit finite machines.
+The default A = `--[a-z]+` accepts two hyphens followed by at least one lowercase letter; B = `--[a-z][a-z]+` requires at least two letters. The observed witness is `--a`, found after **5 processed pairs**. Every shorter string is rejected by both rules. State labels are local to each machine, so equal numbers can have different acceptance values. For m and n completed DFA states and alphabet size k, product search uses O(kmn) time and O(mn) storage, excluding compilation. This exact comparison differs from AALpy's learning/oracle workflow [7].
 
 <!-- pagebreak -->
 
 ## VII. Actual Application Screenshots
 
-These genuine application captures were taken on 24 October 2026 at `http://127.0.0.1:4173/`, using an 1100 × 900 desktop viewport. No mockup, cursor overlay or altered result was used. Full originals accompany the repository; Figure 5 is a directly captured viewport excerpt. Images are resized only for placement.
+The application screenshots were captured on 24 October 2026 at `http://127.0.0.1:4173/` using an 1100 × 900 desktop viewport. Figure 4 shows the valid nested example; Figure 5 isolates the missing-value diagnostic. Full captures accompany the repository, and Figure 5 is a directly captured viewport excerpt. Results are unaltered; images are resized only for placement.
 
 ![Fig. 4. Actual Check text view: the flag is found and the nested command is valid.](../screenshots/report-2026-10-24/01-valid-command.jpg)
 
 ![Fig. 5. Actual viewport excerpt: the flag remains present while a missing value makes syntax invalid.](../screenshots/report-2026-10-24/06-rejection-detail.jpg)
 
-Both results are computed. A pattern match proves neither complete syntax nor malicious intent. The contrast requires no graph editing or saved-case workflow.
+Together, the captures show that finding `--tag` and accepting the complete command are separate decisions. Deleting its value changes the syntax verdict while preserving the pattern match. This small edit provides a direct demonstration of the distinction.
 
 <!-- pagebreak -->
 
@@ -284,19 +284,19 @@ The 24 October browser session reproduced valid and missing-value results, the d
 
 ### A. Interpretation and contribution
 
-The counterexample result converts a rule difference into a concrete, minimal observation. The paired syntax result addresses a different misconception: a locally matching substring does not validate an entire nested input. AUTOSEC's distinction is therefore the selected combination and presentation of these experiments. It does not supersede the broader APIs of automata [6], the active-learning facilities of AALpy [7], or the transformation and execution visualisations in FSM [2]–[4].
+The demonstration connects three observations: a pattern may occur in invalid syntax; a stack tracks nested groups; and a shortest witness explains a rule difference. The non-nested command subset can be regular. The grammar's unrestricted nesting motivates stack memory, while the implementation enforces finite resource bounds. AUTOSEC contributes this compact explanatory workflow alongside the broader libraries [6], [7] and visualisation systems [2]-[4].
 
 ![Fig. 7. Actual Compare rules view: --a is accepted only by Rule A.](../screenshots/report-2026-10-24/03-counterexample.jpg)
 
 ### B. Threats to validity and future evaluation
 
-The prepared examples are selected demonstrations, not a random sample of user behaviour. ASCII and state bounds restrict the domain; token and regex semantics are intentionally narrower than production shells and regex dialects. Tests share some implementation infrastructure, although independent predicates and exact product checks reduce reliance on a single result path. Browser observations sample one browser and two viewport sizes. Labels, keyboard interaction and simple disclosure controls support inspection, but WCAG 2.2 [12] compliance has not been comprehensively audited.
+The examples are selected demonstrations, so their outcomes do not establish general usability. ASCII and state bounds limit coverage; token and regex semantics are narrower than production shells and regex dialects. Some tests share implementation infrastructure. Independent predicates and exact product checks provide complementary checks. Browser observations cover one browser and two viewport sizes. Labels and keyboard controls support inspection, while comprehensive WCAG 2.2 [12] compliance remains unassessed.
 
-A future controlled study could compare unaided and tool-assisted explanations of pattern/syntax disagreement, then measure witness reasoning, task time and error rates. Educational activity design [8] and concise diagnostics [5] are relevant starting points, not substitutes for participant evidence. Adding features is unnecessary for the present two-minute demonstration.
+A future controlled study could compare unaided and tool-assisted explanations of pattern/syntax disagreement, measuring witness reasoning, task time and error rates. Educational activity design [8] and concise diagnostics [5] provide starting points. Such evidence would test whether the focused interface improves understanding without expanding the present demonstration.
 
 ### C. Conclusion
 
-AUTOSEC implements real automata construction, predictive parsing and exhaustive product search behind a small interface. The observed tests, worked traces and clean captures make the selected results reproducible. The report provides the definitions and methodological detail; the application keeps the demonstration focused. Claims remain limited to the implemented language subset and verified observations.
+AUTOSEC integrates automata construction, predictive parsing and exact product search in a small browser application. Recorded tests, worked traces and genuine screenshots support the reported behaviour. Its practical contribution is a reproducible route from an input or rule change to an explicit explanation. Educational effectiveness and comparative performance remain open evaluation questions.
 
 <!-- pagebreak -->
 
